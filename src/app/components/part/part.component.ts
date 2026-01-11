@@ -14,6 +14,7 @@ export class PartComponent implements OnInit{
 
   errors!:any;
   parts: Part[] = [];
+  nameSearch: string = '';
 
   constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart){
     const navigation = this.router.getCurrentNavigation();

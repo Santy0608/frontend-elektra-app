@@ -1,1 +1,79 @@
-<p>part works!</p>
+<div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <h1 class="h3 mb-0 text-primary">
+            <i class="bi bi-nut"></i>
+            Gestión de Repuestos
+        </h1>
+        <small class="text-muted">Administración y clasificación de repuestos para el inventario.</small>
+    </div>
+        <div class="col-md-6 text-end">
+            <button class="btn btn-success" [routerLink]="['/parts/create']">
+                <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Repuesto
+            </button>
+        </div>
+</div>
+
+
+    @if(parts.length>0){
+    <div class="table-responsive">
+        <table class="table table-stripped table-hover align-middle border">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Codigo</th>
+                    <th>Marca</th>
+                    <th>Modelo Compatible</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Stock Mínimo</th>
+                    <th>Estado</th>
+                    <th>Categoría</th>
+                    <th>Proveedor</th>
+                    <th>Actualizar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (part of parts; track $index){
+                    <tr>
+                        <td class="text-center">{{ part.idPart }}</td>
+                        <td class="text-muted">{{ part.name }}</td>
+                        <td class="text-muted">{{ part.code }}</td>
+                        <td class="text-muted">{{ part.brand }}</td>
+                        <td class="text-muted">{{ part.compatibleModel }}</td>
+                        <td class="text-muted">{{ part.price }}</td>
+                        <td class="text-nuted">{{ part.stock }}</td>
+                        <td class="text-muted">{{ part.minimumStock }}</td>
+                        <td class="text-muted">{{ part.status }}</td>
+                        <td class="text-muted">{{ part.category?.name }}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"
+                                    (click)="onSelectedPart(part)">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Actualizar
+                                </button>
+                            </td>
+                            <td>    
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    (click)="onRemovePart(part.idPart)"
+                                >
+                                    <i class="bi bi-trash-fill"></i>
+                                    Eliminar
+                                </button>
+                            </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+} @else if (parts.length === 0 && nameSearch) {
+    <div class="alert alert-info text-center">
+        <i class="bi bi-info-circle-fill me-2"></i> No se encontraron repuestos con el nombre **"{{ nameSearch }}"**.
+    </div>
+} @else {
+    <div class="alert alert-warning text-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> No hay registros de Repuestos en el sistema.
+    </div>
+}
