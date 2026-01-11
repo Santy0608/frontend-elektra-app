@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Category } from '../../models/Category';
 import { CategoryService } from '../../services/category.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharingDataServiceCategory } from '../../services/sharing-data-category.service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-category',
-  imports: [],
+  imports: [CommonModule, RouterModule, RouterLink],
   templateUrl: './category.component.html'
 })
 export class CategoryComponent {
