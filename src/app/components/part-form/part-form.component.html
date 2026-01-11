@@ -1,1 +1,191 @@
-<p>part-form works!</p>
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-md-10"> <div class="card shadow-lg border-0">
+            
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">
+                    <i class="bi bi-box-seam-fill me-2"></i> 
+                    {{ part.idPart > 0 ? "Actualizar Repuesto" : "Registrar Nuevo Repuesto" }}
+                </h2>
+            </div>
+            
+            <form (ngSubmit)="onSubmit(partForm)" #partForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idPart" [(ngModel)]="part.idPart" />
+
+                    
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-card-heading me-1"></i> Identificación del Producto</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-7 mb-3">
+                            <label for="name" class="form-label fw-bold">Nombre del Repuesto <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Ej: Bujía de Iridio NGK, Filtro de Aceite Modelo X"
+                                required
+                                #name="ngModel"
+                                name="name"
+                                [(ngModel)]="part.name"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1 small">
+                                El nombre del repuesto es obligatorio.
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 mb-3">
+                            <label for="code" class="form-label fw-bold">Código Interno / SKU <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Ej: SKU00123, Código de Barras"
+                                required
+                                #code="ngModel"
+                                name="code"
+                                [(ngModel)]="part.code"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="code.invalid && (code.dirty || code.touched)" class="text-danger mt-1 small">
+                                El código del repuesto es obligatorio.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="brand" class="form-label fw-bold">Marca <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Ej: Bosch, Continental, OEM"
+                                required
+                                #brand="ngModel"
+                                name="brand"
+                                [(ngModel)]="part.brand"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="brand.invalid && (brand.dirty || brand.touched)" class="text-danger mt-1 small">
+                                La marca del repuesto es obligatorio.
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="compatibleModel" class="form-label fw-bold">Modelo Compatible</label>
+                            <input
+                                placeholder="Ej: Toyota Corolla 2018, Genérico"
+                                #compatibleModel="ngModel"
+                                name="compatibleModel"
+                                [(ngModel)]="part.compatibleModel"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="compatibleModel.invalid && (compatibleModel.dirty || compatibleModel.touched)" class="text-danger mt-1 small">
+                                El modelo compatible del repuesto es obligatorio.
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-bar-chart-fill me-1"></i> Stock y Precios</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="price" class="form-label fw-bold">Precio de Venta (Unidad) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input
+                                    placeholder="0.00"
+                                    required
+                                    #price="ngModel"
+                                    name="price"
+                                    [(ngModel)]="part.price"
+                                    type="number"
+                                    class="form-control"
+                                    min="0"
+                                />
+                                <div *ngIf="price.invalid && (price.dirty || price.touched)" class="text-danger mt-1 small">
+                                    El precio del repuesto es obligatorio.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="stock" class="form-label fw-bold">Stock Actual <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Cantidad disponible"
+                                required
+                                #stock="ngModel"
+                                name="stock"
+                                [(ngModel)]="part.stock"
+                                type="number"
+                                class="form-control"
+                                min="0"
+                            />
+                            <div *ngIf="stock.invalid && (stock.dirty || stock.touched)" class="text-danger mt-1 small">
+                                La cantidad en Stock del repuesto es obligatoria
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="minimumStock" class="form-label fw-bold">Stock Mínimo (Alerta) <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Umbral de reorden"
+                                required
+                                #minimumStock="ngModel"
+                                name="minimumStock"
+                                [(ngModel)]="part.minimumStock"
+                                type="number"
+                                class="form-control"
+                                min="0"
+                            />
+                            <div *ngIf="minimumStock.invalid && (minimumStock.dirty || minimumStock.touched)" class="text-danger mt-1 small">
+                                La cantidad mínima de Stock del repuesto es obligatoria
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-funnel-fill me-1"></i> Clasificación</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="category" class="form-label fw-bold">Categoría <span class="text-danger">*</span></label>
+                            <select
+                                [(ngModel)]="part.categoryId"
+                                name="categoryId"
+                                required
+                                class="form-select"
+                                #categoryId="ngModel"
+                            >
+                                <option [ngValue]="null" disabled>Seleccione una Categoría</option>
+                                <option *ngFor="let category of categories" [ngValue]="category.idCategory">
+                                    {{ category.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="categoryId.invalid && (categoryId.dirty || categoryId.touched)" class="text-danger mt-1 small">La categoría es obligatoria.</div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+
+                    <div class="d-flex justify-content-end pt-3">
+                        
+                        <a [routerLink]="['/parts']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            [disabled]="partForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ part.idPart > 0 ? 'Guardar Cambios' : 'Registrar Repuesto' }} 
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
