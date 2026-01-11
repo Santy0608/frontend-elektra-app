@@ -7,7 +7,7 @@ import { Part } from "../models/Part";
 @Injectable({
     providedIn: 'root'
 })
-export class RepuestoService{
+export class PartService{
     
     private url:string = "http://localhost:8080/api/parts";
 
