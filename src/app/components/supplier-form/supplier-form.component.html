@@ -1,1 +1,201 @@
-<p>supplier-form works!</p>
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10"> 
+        
+        <div class="card shadow-lg border-0">
+            
+            <div class="card-header bg-primary text-white"> <h2 class="h4 mb-0">
+                    <i class="bi bi-truck-flatbed me-2"></i> {{ supplier.idSupplier > 0 ? "Actualizar Proveedor" : "Registrar Nuevo Proveedor" }}
+                </h2>
+            </div>
+            
+            <form (ngSubmit)="onSubmit(supplierForm)" #supplierForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idSupplier" [(ngModel)]="supplier.idSupplier" />
+
+                    
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-building me-1"></i> Información General</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label fw-bold">Razón Social / Nombre <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Nombre de la empresa proveedora"
+                                required
+                                #name="ngModel"
+                                name="name"
+                                [(ngModel)]="supplier.name"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1 small">El nombre o razón social es obligatorio.</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="rut" class="form-label fw-bold">RUT / Identificación Fiscal <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="Ej: 76.222.111-K"
+                                required
+                                #rut="ngModel"
+                                name="rut"
+                                [(ngModel)]="supplier.rut"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="rut.invalid && (rut.dirty || rut.touched)" class="text-danger mt-1 small">El RUT/Identificación fiscal es obligatorio.</div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-geo-alt-fill me-1"></i> Contacto y Ubicación</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="contact" class="form-label fw-bold">Persona de Contacto <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="Nombre del representante o vendedor"
+                                required
+                                #contact="ngModel"
+                                name="contact"
+                                [(ngModel)]="supplier.contact"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="contact.invalid && (contact.dirty || contact.touched)" class="text-danger mt-1 small">El contacto es obligatorio</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label fw-bold">Número de Teléfono <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="Ej: +56 9 1234 5678"
+                                required
+                                #phone="ngModel"
+                                name="phone"
+                                [(ngModel)]="supplier.phone"
+                                type="tel"
+                                class="form-control"
+                            />
+                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger mt-1 small">El Numero de teléfono del proveedor es obligatorio.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label fw-bold">Correo Electrónico <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="contacto@proveedor.com"
+                                required
+                                #email="ngModel"
+                                name="email"
+                                [(ngModel)]="supplier.email"
+                                type="email"
+                                class="form-control"
+                            />
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1 small">El correo electrónico es obligatorio</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="address" class="form-label fw-bold">Dirección Principal <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="Calle, número, ciudad"
+                                required
+                                #address="ngModel"
+                                name="address"
+                                [(ngModel)]="supplier.address"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="address.invalid && (address.dirty || address.touched)" class="text-danger mt-1 small">La dirección es obligatoria.</div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-journal-check me-1"></i> Términos Comerciales</h5>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="paymentTerms" class="form-label fw-bold">Términos de Pago <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="Ej: 30 días, Contado"
+                                required
+                                #paymentTerms="ngModel"
+                                name="paymentTerms"
+                                [(ngModel)]="supplier.paymentTerms"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="paymentTerms.invalid && (paymentTerms.dirty || paymentTerms.touched)" class="text-danger mt-1 small">La dirección es obligatoria.</div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="averageDeliveryTime" class="form-label fw-bold">Plazo de Entrega (días) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input 
+                                    placeholder="Ej: 5"
+                                    required
+                                    #averageDeliveryTime="ngModel"
+                                    name="averageDeliveryTime"
+                                    [(ngModel)]="supplier.averageDeliveryTime"
+                                    type="number"
+                                    class="form-control"
+                                    min="0"
+                                />
+                                <span class="input-group-text">días</span>
+                                <div *ngIf="paymentTerms.invalid && (paymentTerms.dirty || paymentTerms.touched)" class="text-danger mt-1 small">La dirección es obligatoria.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="agreedDiscount" class="form-label fw-bold">Descuento Acordado (%) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input 
+                                    placeholder="Ej: 10"
+                                    required
+                                    #agreedDiscount="ngModel"
+                                    name="agreedDiscount"
+                                    [(ngModel)]="supplier.agreedDiscount"
+                                    type="number"
+                                    class="form-control"
+                                    min="0" max="100"
+                                />
+                                <span class="input-group-text">%</span>
+                                <div *ngIf="agreedDiscount.invalid && (agreedDiscount.dirty || agreedDiscount.touched)" class="text-danger mt-1 small">La dirección es obligatoria.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="notes" class="form-label fw-bold">Notas Adicionales</label>
+                        <textarea 
+                            placeholder="Información adicional relevante, acuerdos especiales o historial."
+                            name="notes"
+                            [(ngModel)]="supplier.notes"
+                            class="form-control"
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="d-flex justify-content-end pt-3">
+                        
+                        <a [routerLink]="['/suppliers']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-success" 
+                            [disabled]="supplierForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ supplier.idSupplier > 0 ? 'Guardar Cambios' : 'Registrar Proveedor' }} 
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
