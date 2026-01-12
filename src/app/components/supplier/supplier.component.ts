@@ -15,7 +15,7 @@ export class SupplierComponent implements OnInit{
 
   errors: any;
   suppliers: Supplier[] = [];
-
+  nameSearch: string = '';
 
  constructor(private supplierService: SupplierService, private router: Router, private sharingDataService: SharingDataServiceSupplier){
     const navigation = router.getCurrentNavigation();
