@@ -14,4 +14,7 @@ export class Part{
     
 
     categoryId?: number;
+    supplierId?: number;
+
+    
 }

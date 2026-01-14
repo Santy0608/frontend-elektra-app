@@ -29,6 +29,7 @@
                     <th>Stock Mínimo</th>
                     <th>Estado</th>
                     <th>Categoría</th>
+                    <th>Proveedor</th>
                     <th>Actualizar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -46,6 +47,7 @@
                         <td class="text-muted">{{ part.minimumStock }}</td>
                         <td class="text-muted">{{ part.status }}</td>
                         <td class="text-muted">{{ part.category?.name }}</td>
+                        <td class="text-muted">{{ part.supplier?.name }}</td>
                             <td>
                                 <button class="btn btn-warning btn-sm"
                                     (click)="onSelectedPart(part)">

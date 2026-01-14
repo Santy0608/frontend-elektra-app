@@ -164,6 +164,23 @@
                             </select>
                             <div *ngIf="categoryId.invalid && (categoryId.dirty || categoryId.touched)" class="text-danger mt-1 small">La categoría es obligatoria.</div>
                         </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="supplier" class="form-label fw-bold">Proveedor Principal <span class="text-danger">*</span></label>
+                            <select
+                                [(ngModel)]="part.supplierId"
+                                name="supplierId"
+                                required
+                                class="form-select"
+                                #supplierId="ngModel"
+                            >
+                                <option [ngValue]="null" disabled>Seleccione un Proveedor</option>
+                                <option *ngFor="let supplier of suppliers" [ngValue]="supplier.idSupplier">
+                                    {{ supplier.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="supplierId.invalid && (supplierId.dirty || supplierId.touched)" class="text-danger mt-1 small">El proveedor es obligatorio.</div>
+                        </div>
                     </div>
                     
                     <hr>
