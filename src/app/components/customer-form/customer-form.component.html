@@ -1,0 +1,97 @@
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9"> <div class="card shadow-lg border-0">
+            
+            <div class="card-header bg-primary text-white"> 
+                <h2 class="h4 mb-0">
+                    <i class="bi bi-person-fill me-2"></i> {{ customer.idCustomer > 0 ? "Actualizar Cliente" : "Registrar Nuevo Cliente" }}
+                </h2>
+            </div>
+            
+            <form (ngSubmit)="onSubmit(customerForm)" #customerForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idCustomer" [(ngModel)]="customer.idCustomer" />
+
+                    
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-person-badge me-1"></i> Información Personal</h5>
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Nombre Completo / Razón Social <span class="text-danger">*</span></label>
+                        <input
+                            placeholder="Nombre del cliente o razón social de la empresa"
+                            required
+                            #name="ngModel"
+                            name="name"
+                            [(ngModel)]="customer.name"
+                            type="text"
+                            class="form-control"
+                        />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1 small">El nombre es obligatorio.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label fw-bold">Apellido<span class="text-danger">*</span></label>
+                        <input
+                            placeholder="Apellido del cliente"
+                            required
+                            #lastName="ngModel"
+                            name="lastName"
+                            [(ngModel)]="customer.lastName"
+                            type="text"
+                            class="form-control"
+                        />
+                        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger mt-1 small">El nombre es obligatorio.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label fw-bold">Teléfono de Contacto <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="Ej: +56 9 1234 5678"
+                                required
+                                #phone="ngModel"
+                                name="phone"
+                                [(ngModel)]="customer.phone"
+                                type="tel" class="form-control"
+                            />
+                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger mt-1 small">El teléfono es obligatorio.</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label fw-bold">Correo Electrónico <span class="text-danger">*</span></label>
+                            <input 
+                                placeholder="ejemplo@correo.com"
+                                required
+                                #email="ngModel"
+                                name="email"
+                                [(ngModel)]="customer.email"
+                                type="email"
+                                class="form-control"
+                            /> 
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1 small">El correo electrónico es obligatorio y debe ser válido.</div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end pt-3">
+                        
+                        <a [routerLink]="['/customers']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            [disabled]="customerForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ customer.idCustomer > 0 ? 'Guardar Cambios' : 'Registrar Cliente' }} 
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
