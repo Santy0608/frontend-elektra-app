@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 export class UserFormComponent implements OnInit{
 
   errors: any;
-  user!: User
+  user: User = new User();
   modo: 'agregar' | 'editar' = 'agregar';
 
 
@@ -25,14 +25,18 @@ export class UserFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.sharingDataService.errorsUserFormEventEmitter.subscribe(error => this.errors = error);
-    this.sharingDataService.selectUserEventEmitter.subscribe(user => this.user = user);
     this.route.paramMap.subscribe(params => {
-      const id: number = +(params.get('idUser') || '0');
-      if (id > 0){
-        this.userService.findUserById(id).subscribe(user => this.user = user);
+      const id = +(params.get('idUser') || '0');
+      if (id > 0) {
+        this.userService.findUserById(id).subscribe(user => {
+          this.user = user;
+          this.modo = 'editar';
+        });
+      } else {
+        this.user = new User(); 
+        this.modo = 'agregar';
       }
-    })
+    });
   }
 
   onSubmit(userForm: NgForm): void {
@@ -41,7 +45,7 @@ export class UserFormComponent implements OnInit{
     const user = userForm.value;
 
     if (this.user.idUser > 0) {
-      this.userService.saveUser(this.user).subscribe(
+      this.userService.updateUser(this.user).subscribe(
         userUpdated => {
           Swal.fire({
             title: "¡Actualizado!",

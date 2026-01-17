@@ -43,7 +43,7 @@
                     <td class="text-center">{{ user.username }}</td>
                     <td>    
                         <button class="btn btn-warning btn-sm"
-                            (click)="OnSelectedUsuario(usuario)">
+                            (click)="OnSelectedUser(user)">
                             <i class="bi bi-pencil-square"></i>  
                             Actualizar
                         </button>
@@ -51,7 +51,7 @@
                     <td>
                         <button
                             class="btn btn-danger btn-sm"
-                            (click)="onRemoveUsuario(usuario.idUsuario)"
+                            (click)="OnRemoveUser(user.idUser)"
                             >
                             <i class="bi bi-trash-fill"></i>  
                                 Eliminar
