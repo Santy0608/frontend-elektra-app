@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from '../../models/Customer';
 import { CustomerService } from '../../services/customer.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharingDataServiceCustomer } from '../../services/sharing-data-customer.service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-customer',
-  imports: [],
+  imports: [CommonModule, RouterModule, RouterLink],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css'
 })

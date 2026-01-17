@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
 import { SharingDataServiceCustomer } from '../../services/sharing-data-customer.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Customer } from '../../models/Customer';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-customer-form',
-  imports: [],
+  imports: [FormsModule, RouterModule, CommonModule],
   templateUrl: './customer-form.component.html',
   styleUrl: './customer-form.component.css'
 })
