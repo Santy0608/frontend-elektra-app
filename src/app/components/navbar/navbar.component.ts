@@ -4,6 +4,7 @@ import { Category } from '../../models/Category';
 import { Customer } from '../../models/Customer';
 import { Part } from '../../models/Part';
 import { Supplier } from '../../models/Supplier';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-navbar',
@@ -21,8 +22,6 @@ export class NavbarComponent {
   @Input() customers: Customer[] = [];
   @Input() parts: Part[] = [];
   @Input() suppliers: Supplier[] = [];
-
-
-
+  @Input() users: User[] = [];
 
 }
