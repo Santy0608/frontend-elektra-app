@@ -17,6 +17,8 @@ export class UserFormComponent implements OnInit{
 
   errors: any;
   user!: User
+  modo: 'agregar' | 'editar' = 'agregar';
+
 
   constructor(private userService: UserService, private sharingDataService: SharingDataServiceUser, private route: ActivatedRoute, private router: Router){
     this.user = new User();
@@ -74,6 +76,10 @@ export class UserFormComponent implements OnInit{
     this.user = new User();
     userForm.reset();
     userForm.resetForm();
+  }
+
+  showPasswordField(): boolean{
+    return this.modo === 'agregar';
   }
 
 }

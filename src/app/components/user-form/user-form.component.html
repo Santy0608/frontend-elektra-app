@@ -41,7 +41,7 @@
                                 type="text"
                                 class="form-control"
                             />
-                            <div *ngIf="lastName.invalid && (lasttName.dirty || lastName.touched)" class="text-danger mt-1 small">El apellido es obligatorio.</div>
+                            <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger mt-1 small">El apellido es obligatorio.</div>
                         </div>
                     </div>
                     
@@ -78,7 +78,7 @@
                             <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger mt-1 small">El nombre de usuario es obligatorio.</div>
                         </div>
 
-                        <div class="col-md-6 mb-3" *ngIf="mostrarCampoContrasenia()">
+                        <div class="col-md-6 mb-3" *ngIf="showPasswordField()">
                             <label for="password" class="form-label fw-bold">Contraseña <span class="text-danger">*</span></label>
                             <input
                                 autocomplete="new-password"
