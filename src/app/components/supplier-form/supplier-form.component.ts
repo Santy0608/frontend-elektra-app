@@ -10,8 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-supplier-form',
   imports: [FormsModule, RouterLink, CommonModule],
-  templateUrl: './supplier-form.component.html',
-  styleUrl: './supplier-form.component.css'
+  templateUrl: './supplier-form.component.html'
 })
 export class SupplierFormComponent implements OnInit{
 

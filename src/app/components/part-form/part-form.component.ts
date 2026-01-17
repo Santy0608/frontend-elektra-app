@@ -9,10 +9,11 @@ import { CategoryService } from '../../services/category.service';
 import Swal from 'sweetalert2';
 import { Supplier } from '../../models/Supplier';
 import { SupplierService } from '../../services/supplier.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-part-form',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, CommonModule],
   templateUrl: './part-form.component.html',
 })
 export class PartFormComponent implements OnInit{

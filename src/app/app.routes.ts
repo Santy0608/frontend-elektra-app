@@ -8,6 +8,7 @@ import { Supplier } from './models/Supplier';
 import { CustomerComponent } from './components/customer/customer.component';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 import { Customer } from './models/Customer';
+import { SupplierFormComponent } from './components/supplier-form/supplier-form.component';
 
 export const routes: Routes = [
 
@@ -25,10 +26,10 @@ export const routes: Routes = [
     { path: 'parts/edit/:idPart', component: PartComponent},
 
     //Routes for Suppliers
-    
+
     { path: 'suppliers', component: SupplierComponent},
-    { path: 'suppliers/create', component: SupplierComponent},
-    { path: 'suppliers/edit/:idPart', component: SupplierComponent},
+    { path: 'suppliers/create', component: SupplierFormComponent},
+    { path: 'suppliers/edit/:idSupplier', component: SupplierFormComponent},
 
     //Routes for Customers
     { path: 'customers', component: CustomerComponent},
