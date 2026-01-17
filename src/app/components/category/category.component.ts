@@ -39,7 +39,7 @@ export class CategoryComponent {
      // Buscar la categoría dentro del listado
   const category = this.categories.find(c => c.idCategory === id);
   if (!category) {
-    console.error(`Category not found by Id: ${id}`);
+    console.error(`Categoría no encontrada con el Id: ${id}`);
     return;
   }
   // Validar si la categoría está completada
@@ -53,13 +53,13 @@ export class CategoryComponent {
 //  }
 
   Swal.fire({
-    title: "¿Are you sure?",
-    text: "Beware, this category will be deleted from the system.",
+    title: "¿Estás Seguro?",
+    text: "Cuidado, esta categoría será eliminada del sistema",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes,delete it"
+    confirmButtonText: "Sí, eliminar"
   }).then((result) => {
     if (result.isConfirmed) {
       this.categoryService.deleteCategoryById(id).subscribe({
@@ -71,11 +71,11 @@ export class CategoryComponent {
             this.router.navigate(['/categories'], { state: { categories: this.categories } });
           });
 
-          Swal.fire("¡Deleted!", "The category has been deleted successfully.", "success");
+          Swal.fire("¡Eliminado!", "La categoría ha sido eliminada exitosamente", "success");
         },
         error: (err) => {
           console.error(err);
-          Swal.fire("Error", "There were a problem while deleting the category", "error");
+          Swal.fire("Error", "Hubo un problema al eliminar la categoría", "error");
         }
       });
     }
