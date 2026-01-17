@@ -1,0 +1,119 @@
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9"> <div class="card shadow-lg border-0">
+            
+            <div class="card-header bg-primary text-white"> 
+                <h2 class="h4 mb-0">
+                    <i class="bi bi-person-circle me-2"></i> {{ user.idUser > 0 ? "Actualizar Usuario del Sistema" : "Registrar Nuevo Usuario" }}
+                </h2>
+            </div>
+            
+            <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idUser" [(ngModel)]="user.idUser" />
+
+                    
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-person-vcard me-1"></i> Información Personal</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label fw-bold">Nombre <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Nombre de usuario"
+                                required
+                                #name="ngModel"
+                                name="name"
+                                [(ngModel)]="user.name"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1 small">El nombre es obligatorio.</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label fw-bold">Apellido <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Apellido o Apellidos"
+                                required
+                                #lastName="ngModel"
+                                name="lastName"
+                                [(ngModel)]="user.lastName"
+                                type="text"
+                                class="form-control"
+                            />
+                            <div *ngIf="lastName.invalid && (lasttName.dirty || lastName.touched)" class="text-danger mt-1 small">El apellido es obligatorio.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">Correo Electrónico <span class="text-danger">*</span></label>
+                        <input
+                            placeholder="correo@empresa.com"
+                            required
+                            #email="ngModel"
+                            name="email"
+                            [(ngModel)]="user.email"
+                            type="email"
+                            class="form-control"
+                        /> 
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1 small">El correo es obligatorio y debe ser válido.</div>
+                    </div>
+                    
+                    <hr class="my-4">
+
+                    <h5 class="mb-3 text-secondary"><i class="bi bi-shield-lock me-1"></i> Credenciales y Permisos</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="username" class="form-label fw-bold">Nombre de Usuario <span class="text-danger">*</span></label>
+                            <input
+                                placeholder="Ej: j.perez"
+                                required
+                                #username="ngModel"
+                                name="username"
+                                [(ngModel)]="user.username"
+                                type="text"
+                                class="form-control"
+                            /> 
+                            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger mt-1 small">El nombre de usuario es obligatorio.</div>
+                        </div>
+
+                        <div class="col-md-6 mb-3" *ngIf="mostrarCampoContrasenia()">
+                            <label for="password" class="form-label fw-bold">Contraseña <span class="text-danger">*</span></label>
+                            <input
+                                autocomplete="new-password"
+                                placeholder="Mínimo 8 caracteres"
+                                required
+                                #password="ngModel"
+                                name="password"
+                                [(ngModel)]="user.password"
+                                type="password"
+                                class="form-control"
+                            />
+                             <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1 small">La contraseña es obligatoria.</div>
+                        </div>
+                    </div>
+             
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end pt-3">
+                        
+                         <a [routerLink]="['/users']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary"
+                            [disabled]="userForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ user.idUser > 0 ? 'Guardar Cambios' : 'Crear Usuario' }} 
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
