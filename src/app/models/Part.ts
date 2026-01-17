@@ -1,6 +1,8 @@
 import { Category } from "./Category";
+import { Supplier } from "./Supplier";
 
 export class Part{
+
     idPart!: number;
     name!:string;
     code!:string;
@@ -11,10 +13,8 @@ export class Part{
     status!:string;
     minimumStock!:number;
     category!:Category;
-    
-
+    supplier!:Supplier;
     categoryId?: number;
     supplierId?: number;
-
     
 }

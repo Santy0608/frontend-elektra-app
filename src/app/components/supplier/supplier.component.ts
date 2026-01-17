@@ -31,7 +31,7 @@ export class SupplierComponent implements OnInit{
     }
   }
 
-  onRemoveSupplierr(id: number){
+  onRemoveSupplier(id: number){
        // Buscar la categoría dentro del listado
     const supplier = this.suppliers.find(s => s.idSupplier === id);
     if (!supplier) {
