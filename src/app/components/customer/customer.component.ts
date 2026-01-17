@@ -67,4 +67,8 @@ export class CustomerComponent implements OnInit{
       });
   }
 
+  OnSelectedCustomer(customer: Customer): void {
+      this.router.navigate(['/customers/edit', customer.idCustomer]);
+  }
+
 }
