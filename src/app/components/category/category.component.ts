@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharingDataServiceCategory } from '../../services/sharing-data-category.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-category',
@@ -19,7 +20,8 @@ export class CategoryComponent {
   constructor(
   private categoryService: CategoryService,
   private router: Router,
-  private sharingDataService: SharingDataServiceCategory
+  private sharingDataService: SharingDataServiceCategory,
+  private authService: AuthService
 ) {
   const navigation = this.router.getCurrentNavigation();
   if (navigation?.extras?.state) {
@@ -93,5 +95,9 @@ export class CategoryComponent {
     }, error => {
       console.log("Error while charging categoriew: ", error);
     })
+  }
+
+  get admin(){
+    return this.authService.isAdmin();
   }
 }

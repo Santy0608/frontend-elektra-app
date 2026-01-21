@@ -6,11 +6,13 @@
         <small class="text-muted">Administración y clasificación de categorías para el inventario.</small>
     </div>
 
-    <div class="col-md-6 text-end">
-            <button class="btn btn-success" [routerLink]="['/categories/create']">
-                <i class="bi bi-plus-circle-fill me-1"></i> Nueva Categoría
-            </button>
+    @if (admin){
+        <div class="col-md-6 text-end">
+                <button class="btn btn-success" [routerLink]="['/categories/create']">
+                    <i class="bi bi-plus-circle-fill me-1"></i> Nueva Categoría
+                </button>
         </div>
+    }
 </div>
 
 @if(categories.length > 0){
@@ -21,8 +23,10 @@
                     <th>#ID</th>
                     <th>Nombre de la Categoría</th>
                     <th>Descripción</th>
+                    @if (admin){
                         <th>Actualizar</th>
                         <th>Eliminar</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +35,7 @@
                         <td class="text-center">{{ category.idCategory }}</td>
                         <td>{{ category.name }}</td>
                         <td class="text-muted">{{ category.description | slice:0:100 }}</td> 
+                        @if (admin){
                             <td class="text-center">
                                 <button 
                                     class="btn btn-warning btn-sm"
@@ -50,6 +55,7 @@
                                     Eliminar
                                     </button>
                             </td>
+                        }
                     </tr>
                 }
             </tbody>
