@@ -4,6 +4,7 @@ import { PartService } from '../../services/part.service';
 import { Router, RouterModule } from '@angular/router';
 import { SharingDataServicePart } from '../../services/sharing-data-part.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-part',
@@ -16,7 +17,7 @@ export class PartComponent implements OnInit{
   parts: Part[] = [];
   nameSearch: string = '';
 
-  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart){
+  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       this.parts = navigation.extras.state['parts'];
@@ -90,6 +91,11 @@ export class PartComponent implements OnInit{
     }
 
     this.router.navigate(['/parts/edit', part.idPart]);
+  }
+
+
+  get admin(){
+    return this.authService.isAdmin();
   }
 
 

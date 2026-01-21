@@ -6,11 +6,13 @@
         </h1>
         <small class="text-muted">Administración y clasificación de repuestos para el inventario.</small>
     </div>
-        <div class="col-md-6 text-end">
-            <button class="btn btn-success" [routerLink]="['/parts/create']">
-                <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Repuesto
-            </button>
-        </div>
+        @if (admin){
+            <div class="col-md-6 text-end">
+                <button class="btn btn-success" [routerLink]="['/parts/create']">
+                    <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Repuesto
+                </button>
+            </div>
+        }   
 </div>
 
 
@@ -30,8 +32,10 @@
                     <th>Estado</th>
                     <th>Categoría</th>
                     <th>Proveedor</th>
-                    <th>Actualizar</th>
-                    <th>Eliminar</th>
+                    @if (admin){
+                        <th>Actualizar</th>
+                        <th>Eliminar</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +52,7 @@
                         <td class="text-muted">{{ part.status }}</td>
                         <td class="text-muted">{{ part.category?.name }}</td>
                         <td class="text-muted">{{ part.supplier?.name }}</td>
+                        @if (admin){
                             <td>
                                 <button class="btn btn-warning btn-sm"
                                     (click)="onSelectedPart(part)">
@@ -64,6 +69,7 @@
                                     Eliminar
                                 </button>
                             </td>
+                        }
                     </tr>
                 }
             </tbody>
