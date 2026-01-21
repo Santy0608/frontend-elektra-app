@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { User } from "../models/User";
@@ -33,6 +33,20 @@ export class UserService{
 
     deleteUser(id: number): Observable<void>{
         return this.http.delete<void>(`${this.url}/${id}`);
+    }
+
+    searchUser(name: string, email: string, username: string): Observable<User[]>{
+        let params = new HttpParams();
+        if (name){
+            params = params.append('nombre', name);
+        }
+        if (email){
+            params = params.append('correo', email);
+        }
+        if(username){
+            params = params.append('nombreUsuario', username);
+        }
+        return this.http.get<User[]>(`${this.url}/search`, { params: params });
     }
 
 }

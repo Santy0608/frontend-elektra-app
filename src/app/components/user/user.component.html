@@ -18,6 +18,27 @@
     }
 </div>
 
+    <div class="card p-3 mb-4 shadow-sm">
+        <div class="row align-items-center">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-text bg-light text-muted"><i class="bi bi-search"></i></span>
+                    <input 
+                        type="text"
+                        class="form-control"
+                        placeholder="Buscar por Nombre de Usuario..."
+                        [(ngModel)]="nameSearch"
+                        (keyup.enter)="searchUsers()"
+                    >
+                </div>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-outline-primary" (click)="searchUsers()">
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
 
 @if (users.length > 0){
 <div class="table-responsive">

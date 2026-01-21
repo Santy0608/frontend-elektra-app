@@ -7,10 +7,11 @@ import { User } from '../../models/User';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterModule, RouterLink, FormsModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -18,6 +19,9 @@ export class UserComponent implements OnInit{
 
   errors: any;
   users: User[] = [];
+  nameSearch: string = '';
+  emailSearch: string = '';
+  usernameSearch: string = '';
 
   constructor(private userService: UserService, private sharingDataService: SharingDataServiceUser, private router: Router, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
@@ -72,6 +76,13 @@ export class UserComponent implements OnInit{
 
   OnSelectedUser(user: User): void{
     this.router.navigate(['/users/edit', user.idUser]);
+  }
+
+  searchUsers(): void {
+    this.userService.searchUser(this.nameSearch, this.emailSearch, this.usernameSearch)
+    .subscribe(data => {
+      this.users = data;
+    })
   }
 
   get admin(){
