@@ -35,11 +35,18 @@ export class SupplierService{
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
-    searchSupplier(name: string): Observable<Supplier[]>{
+    searchSuppliers(name: string, email: string, address: string): Observable<Supplier[]>{
         let params = new HttpParams();
         if (name){
-            params = params.append('name', name);
+            params = params.append('nombre', name);
         }
+        if (email){
+            params = params.append('correo', email);
+        }
+        if (address){
+            params = params.append('direccion', address);
+        }
+
         return this.http.get<Supplier[]>(`${this.url}/search`, { params: params });
     }
 

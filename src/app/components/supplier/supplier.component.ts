@@ -17,6 +17,8 @@ export class SupplierComponent implements OnInit{
   errors: any;
   suppliers: Supplier[] = [];
   nameSearch: string = '';
+  emailSearch: string = '';
+  addressSearch: string = '';
 
  constructor(private supplierService: SupplierService, private router: Router, private sharingDataService: SharingDataServiceSupplier, private authServie: AuthService){
     const navigation = router.getCurrentNavigation();
@@ -80,6 +82,13 @@ export class SupplierComponent implements OnInit{
 
   OnSelectedSupplier(supplier: Supplier): void{
     this.router.navigate(['/suppliers/edit', supplier.idSupplier])
+  }
+
+  searchSuppliers(): void {
+    this.supplierService.searchSuppliers(this.nameSearch, this.emailSearch, this.addressSearch)
+    .subscribe(data => {
+      this.suppliers = data;
+    })
   }
 
   get admin(){
