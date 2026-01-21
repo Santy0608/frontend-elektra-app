@@ -5,6 +5,7 @@ import { Supplier } from '../../models/Supplier';
 import { SupplierService } from '../../services/supplier.service';
 import { SharingDataServiceSupplier } from '../../services/sharing-data-supplier.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-supplier',
@@ -17,7 +18,7 @@ export class SupplierComponent implements OnInit{
   suppliers: Supplier[] = [];
   nameSearch: string = '';
 
- constructor(private supplierService: SupplierService, private router: Router, private sharingDataService: SharingDataServiceSupplier){
+ constructor(private supplierService: SupplierService, private router: Router, private sharingDataService: SharingDataServiceSupplier, private authServie: AuthService){
     const navigation = router.getCurrentNavigation();
     if (navigation?.extras?.state){
       this.suppliers = navigation.extras.state['suppliers'];
@@ -79,5 +80,9 @@ export class SupplierComponent implements OnInit{
 
   OnSelectedSupplier(supplier: Supplier): void{
     this.router.navigate(['/suppliers/edit', supplier.idSupplier])
+  }
+
+  get admin(){
+    return this.authServie.isAdmin();
   }
 }

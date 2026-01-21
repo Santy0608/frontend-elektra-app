@@ -6,11 +6,14 @@
         </h1>
         <small class="text-muted">Administración y clasificación de proveedores para el inventario.</small>
     </div>
-        <div class="col-md-6 text-end">
-            <button class="btn btn-success" [routerLink]="['/suppliers/create']">
-                <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Proveedor
-            </button>
-        </div>
+
+        @if (admin){
+            <div class="col-md-6 text-end">
+                <button class="btn btn-success" [routerLink]="['/suppliers/create']">
+                    <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Proveedor
+                </button>
+            </div>
+        }
 </div>
     
     @if (suppliers.length>0){
@@ -29,8 +32,10 @@
                     <th>Plazo Entrega</th>
                     <th>Descuento Acordado</th>
                     <th>Notas</th>
-                    <th>Eliminar</th>
-                    <th>Actualizar</th>
+                    @if (admin){
+                        <th>Eliminar</th>
+                        <th>Actualizar</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +52,7 @@
                         <td class="text-muted">{{ supplier.averageDeliveryTime }}</td>
                         <td class="text-muted">{{ supplier.agreedDiscount }}</td>
                         <td class="text-muted">{{ supplier.notes }}</td>
+                        @if (admin){
                             <td  class="text-center">
                                 <button class="btn btn-warning btn-sm"
                                     (click)="OnSelectedSupplier(supplier)">
@@ -63,6 +69,7 @@
                                     Eliminar
                                 </button>
                             </td>
+                        }
                     </tr>
                 }
             </tbody>
