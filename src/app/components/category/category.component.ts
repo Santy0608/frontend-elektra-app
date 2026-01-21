@@ -6,10 +6,11 @@ import { SharingDataServiceCategory } from '../../services/sharing-data-category
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-category',
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterModule, RouterLink, FormsModule],
   templateUrl: './category.component.html'
 })
 export class CategoryComponent {
@@ -94,6 +95,13 @@ export class CategoryComponent {
       console.log("Categories ready to be listed", this.categories);
     }, error => {
       console.log("Error while charging categoriew: ", error);
+    })
+  }
+
+  searchCategories(): void {
+    this.categoryService.searchCategory(this.nameSearch)
+    .subscribe(data => {
+      this.categories = data;
     })
   }
 
