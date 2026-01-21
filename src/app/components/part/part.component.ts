@@ -5,10 +5,11 @@ import { Router, RouterModule } from '@angular/router';
 import { SharingDataServicePart } from '../../services/sharing-data-part.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-part',
-  imports: [RouterModule],
+  imports: [RouterModule, FormsModule],
   templateUrl: './part.component.html',
 })
 export class PartComponent implements OnInit{
@@ -16,6 +17,8 @@ export class PartComponent implements OnInit{
   errors!:any;
   parts: Part[] = [];
   nameSearch: string = '';
+  brandSearch: string = '';
+  codeSearch: string = '';
 
   constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
@@ -93,6 +96,12 @@ export class PartComponent implements OnInit{
     this.router.navigate(['/parts/edit', part.idPart]);
   }
 
+  searchParts(): void {
+    this.partService.searchParts(this.nameSearch, this.brandSearch, this.codeSearch)
+    .subscribe(data => {
+      this.parts = data;
+    })
+  }
 
   get admin(){
     return this.authService.isAdmin();
