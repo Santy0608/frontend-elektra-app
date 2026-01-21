@@ -9,11 +9,13 @@
         <small class="text-muted">Administración y clasificación de Usuarios para el sistema.</small>
     </div>
 
-    <div class="col-md-6 text-end">
-        <button class="btn btn-success" [routerLink]="['/users/create']">
-            <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Usuario
-        </button>
-    </div>
+    @if (admin){
+        <div class="col-md-6 text-end">
+            <button class="btn btn-success" [routerLink]="['/users/create']">
+                <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Usuario
+            </button>
+        </div>
+    }
 </div>
 
 
@@ -29,8 +31,10 @@
                 <th>Apellido</th>
                 <th>Correo</th>
                 <th>Nombre de Usuario</th>
-                <th>Eliminar</th>
-                <th>Actualizar</th>
+                @if (admin){
+                    <th>Eliminar</th>
+                    <th>Actualizar</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -41,22 +45,24 @@
                     <td class="text-center">{{ user.lastName }}</td>
                     <td class="text-center">{{ user.email }}</td>
                     <td class="text-center">{{ user.username }}</td>
-                    <td>    
-                        <button class="btn btn-warning btn-sm"
-                            (click)="OnSelectedUser(user)">
-                            <i class="bi bi-pencil-square"></i>  
-                            Actualizar
-                        </button>
-                    </td>
-                    <td>
-                        <button
-                            class="btn btn-danger btn-sm"
-                            (click)="OnRemoveUser(user.idUser)"
-                            >
-                            <i class="bi bi-trash-fill"></i>  
-                                Eliminar
+                    @if (admin){
+                        <td>    
+                            <button class="btn btn-warning btn-sm"
+                                (click)="OnSelectedUser(user)">
+                                <i class="bi bi-pencil-square"></i>  
+                                Actualizar
                             </button>
-                    </td>
+                        </td>
+                        <td>
+                            <button
+                                class="btn btn-danger btn-sm"
+                                (click)="OnRemoveUser(user.idUser)"
+                                >
+                                <i class="bi bi-trash-fill"></i>  
+                                    Eliminar
+                                </button>
+                        </td>
+                    }   
                 </tr>
             }
         </tbody>

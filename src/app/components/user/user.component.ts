@@ -6,6 +6,7 @@ import { Customer } from '../../models/Customer';
 import { User } from '../../models/User';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -18,7 +19,7 @@ export class UserComponent implements OnInit{
   errors: any;
   users: User[] = [];
 
-  constructor(private userService: UserService, private sharingDataService: SharingDataServiceUser, private router: Router){
+  constructor(private userService: UserService, private sharingDataService: SharingDataServiceUser, private router: Router, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state){
       this.users = navigation.extras.state['users'];
@@ -71,6 +72,10 @@ export class UserComponent implements OnInit{
 
   OnSelectedUser(user: User): void{
     this.router.navigate(['/users/edit', user.idUser]);
+  }
+
+  get admin(){
+    return this.authService.isAdmin();
   }
 
 }
