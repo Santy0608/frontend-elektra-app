@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharingDataServiceCustomer } from '../../services/sharing-data-customer.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-customer',
@@ -17,7 +18,7 @@ export class CustomerComponent implements OnInit{
   errors: any;
   customers: Customer[] = [];
 
-  constructor(private customerService: CustomerService, private router: Router, private sharingDataService: SharingDataServiceCustomer){
+  constructor(private customerService: CustomerService, private router: Router, private sharingDataService: SharingDataServiceCustomer, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       this.customers = navigation.extras.state['customers'];
@@ -70,6 +71,11 @@ export class CustomerComponent implements OnInit{
 
   OnSelectedCustomer(customer: Customer): void {
       this.router.navigate(['/customers/edit', customer.idCustomer]);
+  }
+
+
+  get admin(){
+    return this.authService.isAdmin();
   }
 
 }

@@ -6,11 +6,13 @@
         <small class="text-muted">Administración y clasificación de clientes para el inventario.</small>
     </div>
 
-    <div class="col-md-6 text-end">
+    @if (admin){
+        <div class="col-md-6 text-end">
             <button class="btn btn-success" [routerLink]="['/customers/create']">
                 <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Cliente
             </button>
         </div>
+    }
 </div>
 
 @if(customers.length > 0){
@@ -23,8 +25,10 @@
                     <th>Apellido</th>
                     <th>Email</th>
                     <th>Teléfono</th>
+                    @if (admin){
                         <th>Actualizar</th>
                         <th>Eliminar</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +39,7 @@
                         <td>{{ customer.lastName }}</td>
                         <td>{{ customer.email }}</td>
                         <td>{{ customer.phone }}</td>
+                        @if (admin){
                             <td class="text-center">
                                 <button 
                                     class="btn btn-warning btn-sm"
@@ -54,6 +59,7 @@
                                     Eliminar
                                     </button>
                             </td>
+                        }
                     </tr>
                 }
             </tbody>
