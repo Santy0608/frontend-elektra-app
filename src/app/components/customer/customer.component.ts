@@ -6,10 +6,11 @@ import { SharingDataServiceCustomer } from '../../services/sharing-data-customer
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-customer',
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterModule, RouterLink, FormsModule],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css'
 })
@@ -17,6 +18,9 @@ export class CustomerComponent implements OnInit{
 
   errors: any;
   customers: Customer[] = [];
+  nameSearch: string = '';
+  phoneSearch: string = '';
+  emailSearch: string = '';
 
   constructor(private customerService: CustomerService, private router: Router, private sharingDataService: SharingDataServiceCustomer, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
@@ -73,6 +77,12 @@ export class CustomerComponent implements OnInit{
       this.router.navigate(['/customers/edit', customer.idCustomer]);
   }
 
+  searchCustomers(): void{
+    this.customerService.searchCustomers(this.nameSearch, this.phoneSearch, this.emailSearch)
+    .subscribe(data => {
+      this.customers = data;
+    })
+  }
 
   get admin(){
     return this.authService.isAdmin();
