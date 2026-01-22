@@ -37,7 +37,7 @@ export class AuthComponent {
        this.authService.token = token;
 
         //Guardar token en local storage
-        this.authService.usuario = { 
+        this.authService.user = { 
           user: { username: payload.sub },
           isAuth: true,
           isAdmin: payload.isAdmin

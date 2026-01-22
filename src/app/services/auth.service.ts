@@ -13,29 +13,29 @@ export class AuthService{
     constructor(private http: HttpClient) {}
 
   private _token: string | undefined;
-  private _usuario: any = {
+  private _user: any = {
     isAuth: false,
     isAdmin: false, 
-    usuario: undefined
+    user: undefined
   };
 
-  loginUsuario({ nombreUsuario, contrasenia }: any): Observable<any> {
-    return this.http.post<any>(this.url, { nombreUsuario, contrasenia });
+  loginUsuario({ username, password }: any): Observable<any> {
+    return this.http.post<any>(this.url, { username, password });
   }
   
-  set usuario(usuario: any) {
-    this._usuario = usuario;
-    sessionStorage.setItem('login', JSON.stringify(usuario));
+  set user(user: any) {
+    this._user = user;
+    sessionStorage.setItem('login', JSON.stringify(user));
   }
   
-  get usuario() {
-    if (this._usuario.isAdmin){
-      return this._usuario;
+  get user() {
+    if (this._user.isAdmin){
+      return this._user;
     } else if (sessionStorage.getItem('login') != null){
-       this._usuario = JSON.parse(sessionStorage.getItem('login') || '{}');
-       return this._usuario;
+       this._user = JSON.parse(sessionStorage.getItem('login') || '{}');
+       return this._user;
     }
-    return this._usuario;
+    return this._user;
   }
 
   set token(token: string) {
@@ -62,16 +62,16 @@ export class AuthService{
   }
 
   isAdmin() {
-    return this.usuario.isAdmin;
+    return this.user.isAdmin;
   }
 
   authenticated() {
-    return this.usuario.isAuth;
+    return this.user.isAuth;
   }
 
   logout(): void {
     this._token = undefined;
-    this._usuario = {
+    this._user = {
       isAuth: false,
       isAdmin: false,
       usuario: undefined
