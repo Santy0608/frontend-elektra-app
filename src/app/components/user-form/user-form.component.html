@@ -93,6 +93,11 @@
                              <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1 small">La contraseña es obligatoria.</div>
                         </div>
                     </div>
+
+                    <div class="mb-3 form-check pt-2">
+                        <input type="checkbox" [(ngModel)]="user.admin" name="admin" class="form-check-input" id="checkAdmin"/>
+                        <label class="form-check-label fw-bold" for="checkAdmin">Otorgar Permisos de Administrador</label>
+                    </div>
              
                     <hr class="my-4">
 
