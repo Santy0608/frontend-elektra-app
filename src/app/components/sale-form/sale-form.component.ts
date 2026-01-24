@@ -119,5 +119,8 @@ export class SaleFormComponent implements OnInit{
     })
   }
 
+  deleteDetail(detailId: number): void {
+    this.sale.details = this.sale.details.filter((d: any) => d.id !== detailId);
+  }
 
 }
