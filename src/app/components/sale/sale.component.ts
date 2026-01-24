@@ -4,17 +4,17 @@ import { Part } from '../../models/Part';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
 import { SaleService } from '../../services/sale.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SharingDataService } from '../../services/sharing-data-sale.service';
 import { PartService } from '../../services/part.service';
 import Swal from 'sweetalert2';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-sale',
-  imports: [],
+  imports: [RouterModule, CommonModule],
   templateUrl: './sale.component.html',
   styleUrl: './sale.component.css'
 })
