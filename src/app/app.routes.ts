@@ -14,6 +14,7 @@ import { UserFormComponent } from './components/user-form/user-form.component';
 import { AuthComponent } from './auth_components/auth/auth.component';
 import { authGuard } from './guards/auth.guard';
 import { Forbidden403Component } from './forbidden_components/forbidden/forbidden.component';
+import { SaleComponent } from './components/sale/sale.component';
 
 export const routes: Routes = [
 
@@ -49,6 +50,10 @@ export const routes: Routes = [
 
     {path: 'login', component: AuthComponent},
 
-    {path: 'forbidden', component: Forbidden403Component}
+    {path: 'forbidden', component: Forbidden403Component},
+
+    //Routes for Sales
+
+    {path: 'sales', component: SaleComponent}
 
 ];
