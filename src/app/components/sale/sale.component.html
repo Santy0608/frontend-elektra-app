@@ -1,1 +1,144 @@
+<div class="container-fluid py-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6 fw-bold text-primary">
+            <i class="bi bi-cash-stack me-3"></i> Gestión de Ventas
+        </h1>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-end align-items-center">
+            @if (admin){
+                <button class="btn btn-outline-secondary me-2 shadow-sm" [routerLink]="['/reportes/ventas']">
+                    <i class="bi bi-file-earmark-bar-graph me-1"></i> Generar Reportes
+                </button>
+                <button class="btn btn-success shadow-sm" [routerLink]="['/sales/create']">
+                    <i class="bi bi-plus-circle-fill me-1"></i> Registrar Nueva Venta
+                </button>
+            }
+        </div>
+    </div>
+    
+    <hr class="my-4">
 
+    <div *ngIf="filteredParts.length > 0">
+        <div class="alert alert-danger shadow-sm p-3 mb-4 border-0">
+            <h5 class="alert-heading fw-bold">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> ALERTA: ¡Bajo Stock!
+            </h5>
+            <p class="mb-2">Se recomienda reabastecer urgentemente los siguientes repuestos:</p>
+            <ul class="list-unstyled mb-0">
+                <li *ngFor="let part of filteredParts" class="mb-1">
+                    <i class="bi bi-tools me-1"></i> **{{ part.name }}** — Stock: <span class="badge bg-danger">{{ part.stock }}</span> / Mínimo: {{ part.minimumStock }}
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <h3 class="mb-3 text-secondary"><i class="bi bi-table me-2"></i> Historial de Transacciones</h3>
+
+    @if(sales.length > 0) {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha y Hora</th>
+                        <th>Cliente</th>
+                        <th>Total</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (sale of sales; track $index) {
+                    <tr>
+                        <td class="text-center fw-bold">{{ sale.idSale }}</td>
+                        <td>{{ sale.date | date : "medium" }}</td> <td><i class="bi bi-person-fill me-1"></i> {{ sale.customer?.name }}</td>
+                        <td class="text-end fw-bold text-success">{{ sale.total | currency : "USD" }}</td> <td class="text-center">
+                            
+                            <button class="btn btn-info btn-sm me-2" (click)="viewDetails(sale)">
+                                <i class="bi bi-eye-fill"></i>
+                            </button>
+                            
+                            @if(admin){
+                                <button class="btn btn-primary btn-sm me-2" (click)="downloadInvoice(sale.idSale)">
+                                    <i class="bi bi-file-pdf-fill"></i>
+                                </button>
+                                
+                                <button
+                                    class="btn btn-outline-danger btn-sm"
+                                    (click)="onRemoveSale(sale.idSale)"
+                                >
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    } @else {
+        <div class="alert alert-info py-3 text-center shadow-sm">
+            <i class="bi bi-info-circle-fill me-2"></i> No se han registrado transacciones de ventas.
+        </div>
+    }
+
+    <div class="modal fade" id="modalDetails" tabindex="-1" aria-labelledby="modalDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="modalDetailsLabel">
+                        <i class="bi bi-receipt me-2"></i> Detalles de la Venta #{{ saleSelected?.idSale }}
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 p-3 bg-light rounded">
+                        <div class="col-md-6">
+                            <p class="mb-1">Cliente: <span class="fw-bold">{{ saleSelected?.customer?.name }}</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1">Fecha: <span class="fw-bold">{{ saleSelected?.date | date : "medium" }}</span></p>
+                        </div>
+                    </div>
+                    
+                    <h6 class="text-primary border-bottom pb-2 mt-3"><i class="bi bi-list-ul me-1"></i> Repuestos Vendidos</h6>
+                    
+                    <table class="table table-sm table-striped text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Repuesto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let det of saleSelected?.details">
+                                <td>{{ det.part?.name }}</td>
+                                <td>{{ det.quantity }}</td>
+                                <td>{{ det.unitPrice | currency : "USD" }}</td>
+                                <td class="text-end">{{ det.subtotal | currency : "USD" }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold table-active">TOTAL DE LA VENTA:</td>
+                                <td class="text-end fw-bold table-success">{{ saleSelected?.total | currency : "USD" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Cerrar
+                    </button>
+                    @if(admin){
+                        <button class="btn btn-primary" (click)="downloadInvoice(saleSelected!.idSale)" data-bs-dismiss="modal">
+                            <i class="bi bi-file-pdf-fill me-1"></i> Descargar Factura
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,7 @@ export class SaleComponent {
   notifications: any[] = [];
   parts: Part[] = [];
   filteredParts: Part[] = [];
+  
 
    constructor(private snackBar: MatSnackBar, 
     private authService: AuthService, 
@@ -34,6 +35,7 @@ export class SaleComponent {
     private sharingDataService: SharingDataService, 
     @Inject(PLATFORM_ID) private platformId: Object, 
     private partServie: PartService){
+    
   }
 
   ngOnInit(): void {
