@@ -26,7 +26,7 @@ export class NavbarComponent {
   @Input() users: User[] = [];
 
   get login(){
-    return this.authService.usuario;
+    return this.authService.user;
   }
 
   get admin(){

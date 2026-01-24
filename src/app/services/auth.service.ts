@@ -19,7 +19,7 @@ export class AuthService{
     user: undefined
   };
 
-  loginUsuario({ username, password }: any): Observable<any> {
+  loginUser({ username, password }: any): Observable<any> {
     return this.http.post<any>(this.url, { username, password });
   }
   
@@ -53,8 +53,8 @@ export class AuthService{
     return this._token!;
   }
 
-  getPayload(token: string): any {
-    if (token) {
+  getPayload(token: string) {
+    if (token != null) {
       return JSON.parse(atob(token.split(".")[1]));
     } else {
       return;
@@ -74,7 +74,7 @@ export class AuthService{
     this._user = {
       isAuth: false,
       isAdmin: false,
-      usuario: undefined
+      user: undefined
     };
     sessionStorage.removeItem('login');
     sessionStorage.removeItem('token');

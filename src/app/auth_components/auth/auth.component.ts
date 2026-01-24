@@ -26,11 +26,12 @@ export class AuthComponent {
       return; 
     }
 
-    this.authService.loginUsuario({ 
+    this.authService.loginUser({ 
       username: this.user.username, 
       password: this.user.password 
     }).subscribe({
       next: (response: { token:any; } ) => {
+        console.log('LOGIN RESPONSE', response);
         const token = response.token;
         const payload = this.authService.getPayload(token);
         
@@ -40,7 +41,7 @@ export class AuthComponent {
         this.authService.user = { 
           user: { username: payload.sub },
           isAuth: true,
-          isAdmin: payload.isAdmin
+          isAdmin: payload.isAdmin == true
        };
                                                   
         this.router.navigate(['/users']);
