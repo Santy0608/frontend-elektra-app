@@ -4,15 +4,18 @@ import { Part } from '../../models/Part';
 import { Sale } from '../../models/Sale';
 import { SaleService } from '../../services/sale.service';
 import { SharingDataService } from '../../services/sharing-data-sale.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
 import { PartService } from '../../services/part.service';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
+import { SaleRequest } from '../../models/SaleRequest';
+import { DetailRequest } from '../../models/DetailRequest';
 
 @Component({
   selector: 'app-sale-form',
-  imports: [],
+  imports: [FormsModule, RouterLink, RouterModule, CommonModule],
   templateUrl: './sale-form.component.html',
   styleUrl: './sale-form.component.css'
 })
@@ -64,7 +67,7 @@ export class SaleFormComponent implements OnInit{
     }
 
     this.sale.details.push({
-      partId: 0,
+      partId: null,
       quantity: 1
     })
   }
@@ -81,15 +84,16 @@ export class SaleFormComponent implements OnInit{
       return;
     }
 
-    const saleToSend = {
-      ...this.sale,
-      customer: { idCustomer: this.sale.customerId },
-      details: this.sale.details.map((d: { partId: any; }) => ({
-        ...d,
-        part: { idPart: d.partId }
+    const saleToSend: SaleRequest = {
+      customerId: this.sale.customerId,
+      requests: this.sale.details.map((d: DetailRequest) => ({
+        partId: Number(d.partId),
+        quantity: d.quantity
       }))
     };
 
+    
+    console.log(saleToSend);
     this.saleService.saveSale(saleToSend).subscribe(saleNew => {
       this.sharingDataService.newSaleEventEmitter.emit(saleNew);
 
@@ -119,8 +123,8 @@ export class SaleFormComponent implements OnInit{
     })
   }
 
-  deleteDetail(detailId: number): void {
-    this.sale.details = this.sale.details.filter((d: any) => d.id !== detailId);
+  deleteDetail(index: number): void{
+    this.sale.details.splice(index, 1);
   }
 
 }

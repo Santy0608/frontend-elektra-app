@@ -15,7 +15,7 @@
                     <h5 class="mb-3 text-secondary"><i class="bi bi-person-check-fill me-1"></i> Selección de Cliente</h5>
                     
                     <div class="mb-3">
-                        <label for="cliente" class="form-label fw-bold">Cliente <span class="text-danger">*</span></label>
+                        <label for="customer" class="form-label fw-bold">Cliente <span class="text-danger">*</span></label>
                         <select
                             [(ngModel)]="sale.customerId"
                             name="customerId"
@@ -50,7 +50,7 @@
                                     <button 
                                         type="button" 
                                         class="btn btn-sm btn-outline-danger" 
-                                        (click)="deleteDetail(detail.id)">
+                                        (click)="deleteDetail(i)">
                                         <i class="bi bi-trash-fill"></i> Eliminar
                                     </button> 
                                 </div>
@@ -63,9 +63,8 @@
                                             name="partId{{i}}"
                                             required
                                             class="form-select form-select-sm"
-                                            #partId="ngModel"
                                         >
-                                            <option [ngValue]="null" disabled>Seleccione un Repuesto</option>
+                                            <option [ngValue]="null">Seleccione un Repuesto</option>
                                             <option *ngFor="let part of parts" [ngValue]="part.idPart">
                                                 {{ part.name }} (Stock: {{ part.stock }})
                                             </option>
@@ -82,13 +81,12 @@
                                             required
                                             min="1"
                                             placeholder="Mín. 1"
-                                            #cantidad="ngModel"
+                                            #quantity="ngModel"
                                         />
                                     </div>
                                 </div>
-                                
-                                <div *ngIf="partId.invalid && (partId.dirty || partId.touched)" class="text-danger mt-1 small">Seleccionar un repuesto es obligatorio.</div>
-                                <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="text-danger mt-1 small">La cantidad debe ser mínimo 1.</div>
+                              <!--  <div *ngIf="partId.invalid && (partId.dirty || partId.touched)" class="text-danger mt-1 small">Seleccionar un repuesto es obligatorio.</div> -->
+                                <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="text-danger mt-1 small">La cantidad debe ser mínimo 1.</div> 
                             </div>
                             
                             <div class="text-center mt-3">
@@ -110,7 +108,7 @@
                         <button 
                             type="submit" 
                             class="btn btn-success"
-                            [disabled]="!saleForm.form.valid || sale.details.length === 0"
+                            [disabled]="sale.details.length === 0"
                         >
                             <i class="bi bi-receipt me-1"></i> Finalizar Venta
                         </button>

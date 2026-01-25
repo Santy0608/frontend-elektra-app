@@ -93,7 +93,7 @@ export class SaleComponent {
 
     if (isPlatformBrowser(this.platformId)) {
         if ((window as any).bootstrap && (window as any).bootstrap.Modal) {
-            const modalElement = document.getElementById('detallesModal');
+            const modalElement = document.getElementById('modalDetails');
             if (modalElement) {
                 const modalInstance = new (window as any).bootstrap.Modal(modalElement);
                 modalInstance.show();

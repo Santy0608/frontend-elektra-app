@@ -32,6 +32,8 @@ export class PartComponent implements OnInit{
       console.log("Part List ");
       this.partService.partsList().subscribe(parts => this.parts = parts);
     }
+
+    this.loadParts();
   }
 
   onRemovePart(id: number): void{
@@ -105,6 +107,16 @@ export class PartComponent implements OnInit{
 
   get admin(){
     return this.authService.isAdmin();
+  }
+
+
+  loadParts(): void {
+    this.partService.partsList().subscribe(parts => {
+      this.parts = parts;
+      console.log("Parts loaded: ", this.parts);
+    }, error => {
+      console.log("Error loading parts: ", error);
+    })
   }
 
 
