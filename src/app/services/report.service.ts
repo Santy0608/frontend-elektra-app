@@ -14,7 +14,7 @@ export class ReportService {
 
     }
 
-    generarReporteVentas(startDate?:string, endDate?:string): Observable<Blob>{
+    generateSalesReport(startDate?:string, endDate?:string): Observable<Blob>{
         let params = new HttpParams();
         if (startDate){
             params = params.set('fechaInicio', startDate);
