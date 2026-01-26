@@ -1,0 +1,26 @@
+<div class="card my-4">
+    <div class="card-header">
+        <h1 class="text-center">
+            Generar Reporte de Ventas
+        </h1>
+    </div>
+    <div class="card-body">
+        <form (ngSubmit)="generateReport()">
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    <label for="startDate" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="startDate" [(ngModel)]="startDate" name="startDate"/>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label for="endDate" class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-control" id="endDate" [(ngModel)]="endDate" name="endDate"/>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Generar Reporte
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
