@@ -17,10 +17,10 @@ export class ReportService {
     generateSalesReport(startDate?:string, endDate?:string): Observable<Blob>{
         let params = new HttpParams();
         if (startDate){
-            params = params.set('fechaInicio', startDate);
+            params = params.set('startDate', startDate);
         }
         if (endDate){
-            params = params.set('fechaFin', endDate);
+            params = params.set('endDate', endDate);
         }
         return this.http.get(`${this.url}/sales`, { params, responseType: 'blob' })
     }
