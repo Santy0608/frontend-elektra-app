@@ -17,6 +17,7 @@ import { Forbidden403Component } from './forbidden_components/forbidden/forbidde
 import { SaleComponent } from './components/sale/sale.component';
 import { SaleFormComponent } from './components/sale-form/sale-form.component';
 import { ReportComponent } from './components/report/report.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
 
@@ -31,7 +32,7 @@ export const routes: Routes = [
 
     { path: 'parts', component: PartComponent },
     { path: 'parts/create', component: PartFormComponent},
-    { path: 'parts/edit/:idPart', component: PartComponent},
+    { path: 'parts/edit/:idPart', component: PartFormComponent},
 
     //Routes for Suppliers
 
@@ -61,6 +62,10 @@ export const routes: Routes = [
 
     //Routes for Reports
 
-    {path: 'reports/sales', component: ReportComponent}
+    {path: 'reports/sales', component: ReportComponent},
+
+    //Routes for Dashboard
+
+    {path: 'dashboard', component: DashboardComponent}
 
 ];

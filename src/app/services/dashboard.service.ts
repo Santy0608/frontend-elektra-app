@@ -9,14 +9,14 @@ import { Sale } from "../models/Sale";
 })
 export class DashboardService{
 
-    private url: string = 'http://localhost:4200/api/dashboard'
+    private url: string = 'http://localhost:8080/api/dashboard'
 
     constructor(private http: HttpClient){
 
     }
 
     getTotalSales(): Observable<Sale[]>{
-        return this.http.get<Sale[]>(`${this.url}/ventas`);
+        return this.http.get<Sale[]>(`${this.url}/sales`);
     }
 
 }

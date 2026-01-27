@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit{
       title: {
         display: true,
         text: 'Registro de Ventas Diarias',
-        font: { size: 16, weight: 'bold' as const },
+        font: { size: 36, weight: 'bold' as const },
         color: '#34495e'
       },
       legend: {
