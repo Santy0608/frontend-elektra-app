@@ -6,6 +6,7 @@ import { Part } from '../../models/Part';
 import { Supplier } from '../../models/Supplier';
 import { User } from '../../models/User';
 import { AuthService } from '../../services/auth.service';
+import { Brand } from '../../models/Brand';
 
 @Component({
   selector: 'app-navbar',
@@ -24,6 +25,7 @@ export class NavbarComponent {
   @Input() parts: Part[] = [];
   @Input() suppliers: Supplier[] = [];
   @Input() users: User[] = [];
+  @Input() brands: Brand[] = [];
 
   get login(){
     return this.authService.user;

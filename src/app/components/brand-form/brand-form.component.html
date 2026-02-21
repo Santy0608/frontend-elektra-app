@@ -1,0 +1,68 @@
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9"> <div class="card shadow-lg border-0">
+            
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">
+                    <i class="bi bi-tag-fill me-2"></i> 
+                    {{ brand.idBrand > 0 ? "Actualizar Marca" : "Crear Marca" }}
+                </h2>
+            </div>
+            
+            <form (ngSubmit)="onSubmit(brandForm)" #brandForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idBrand" [(ngModel)]="brand.idBrand" />
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Nombre de la Marca <span class="text-danger">*</span></label>
+                        <input
+                            placeholder="Ej: Toyota, Nissan, Chevrolet, Volkswagen"
+                            required
+                            #name="ngModel"
+                            name="name"
+                            [(ngModel)]="brand.name"
+                            type="text"
+                            class="form-control"
+                        />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1 small">
+                            El nombre de la marca es obligatorio.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-bold">Descripción (Opcional)</label>
+                        <textarea
+                            placeholder="Detalle el tipo de marcas que se clasificarán aquí."
+                            name="description"
+                            [(ngModel)]="brand.description"
+                            class="form-control"
+                            rows="3"
+                        ></textarea>
+                        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="text-danger mt-1 small">
+                            La descripción de la marca es obligatoria
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-end">
+                        
+                        <a [routerLink]="['/brands']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-success" 
+                            [disabled]="brandForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ brand.idBrand > 0 ? 'Guardar Cambios' : 'Crear Marca' }} 
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

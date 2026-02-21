@@ -45,15 +45,6 @@ export class CategoryComponent {
     console.error(`Categoría no encontrada con el Id: ${id}`);
     return;
   }
-  // Validar si la categoría está completada
-//  if (categoria.estado === "completado") {
-//    Swal.fire({
-//      title: "Acción no permitida",
-//      text: "No puedes eliminar una categoría completada.",
-//      icon: "error"
-//    });
-//    return; // Detener la ejecución
-//  }
 
   Swal.fire({
     title: "¿Estás Seguro?",

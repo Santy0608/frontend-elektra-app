@@ -18,6 +18,8 @@ import { SaleComponent } from './components/sale/sale.component';
 import { SaleFormComponent } from './components/sale-form/sale-form.component';
 import { ReportComponent } from './components/report/report.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BrandComponent } from './components/brand/brand.component';
+import { BrandFormComponent } from './components/brand-form/brand-form.component';
 
 export const routes: Routes = [
 
@@ -39,6 +41,11 @@ export const routes: Routes = [
     { path: 'suppliers', component: SupplierComponent},
     { path: 'suppliers/create', component: SupplierFormComponent},
     { path: 'suppliers/edit/:idSupplier', component: SupplierFormComponent},
+    
+    //Routes for Brands
+    { path: 'brands', component: BrandComponent },
+    { path: 'brands/create', component: BrandFormComponent},
+    { path: 'brands/edit/:idBrand', component: BrandFormComponent},
 
     //Routes for Customers
     { path: 'customers', component: CustomerComponent},
