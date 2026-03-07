@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { BrandService } from '../../services/brand.service';
 import { SharingDataService } from '../../services/sharing-data-sale.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Brand } from '../../models/Brand';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-brand',
-  imports: [],
+  imports: [CommonModule, RouterModule, RouterLink],
   templateUrl: './brand.component.html',
   styleUrl: './brand.component.css'
 })

@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">
+                    <i class="bi bi-tag-fill me-2"></i> 
+                    {{ model.idModel > 0 ? "Actualizar Modelo" : "Crear Modelo" }}
+                </h2>
+            </div>
+
+            <form (ngSubmit)="onSubmit(modelForm)" #modelForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idModel" [(ngModel)]="model.idModel">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">Nombre del Modelo <span class="text-danger">*</span></label>
+                        <input
+                            placeholder="Ej: Corolla, Yaris, Hilux"
+                            required
+                            #name="ngModel"
+                            name="name"
+                            [(ngModel)]="model.name"
+                            type="text"
+                            class="form-control"
+                        />
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1 small">
+                            El nombre del modelo es obligatorio.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="brand" class="form-label fw-bold">Marca <span class="text-danger">*</span></label>
+                            <select
+                                [(ngModel)]="model.brandId"
+                                name="brandId"
+                                required
+                                class="form-select"
+                                #brandId="ngModel"
+                            >
+                                <option [ngValue]="null" disabled>Seleccione una Marca</option>
+                                <option *ngFor="let brand of brands" [ngValue]="brand.idBrand">
+                                    {{ brand.name }}
+                                </option>
+                            </select>
+                        <div *ngIf="brandId.invalid && (brandId.dirty || brandId.touched)" class="text-danger mt-1 small">La marca es obligatoria.</div>
+                    </div>
+                    <div class="d-flex justify-content-end pt-3">
+                        
+                        <a [routerLink]="['/models']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            [disabled]="modelForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ model.idModel > 0 ? 'Guardar Cambios' : 'Registrar Modelo' }} 
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

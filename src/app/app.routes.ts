@@ -20,6 +20,8 @@ import { ReportComponent } from './components/report/report.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BrandComponent } from './components/brand/brand.component';
 import { BrandFormComponent } from './components/brand-form/brand-form.component';
+import { ModelComponent } from './components/model/model.component';
+import { ModelFormComponent } from './components/model-form/model-form.component';
 
 export const routes: Routes = [
 
@@ -46,6 +48,11 @@ export const routes: Routes = [
     { path: 'brands', component: BrandComponent },
     { path: 'brands/create', component: BrandFormComponent},
     { path: 'brands/edit/:idBrand', component: BrandFormComponent},
+
+    //Routes for Models
+    { path: 'models', component: ModelComponent },
+    { path: 'models/create', component: ModelFormComponent},
+    { path: 'models/edit/:idModel', component: ModelFormComponent},
 
     //Routes for Customers
     { path: 'customers', component: CustomerComponent},

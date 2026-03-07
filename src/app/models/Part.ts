@@ -1,5 +1,6 @@
 import { Brand } from "./Brand";
 import { Category } from "./Category";
+import { Model } from "./Model";
 import { Supplier } from "./Supplier";
 
 export class Part{
@@ -7,16 +8,16 @@ export class Part{
     idPart!: number;
     name!:string;
     code!:string;
-    compatibleModel!:string;
     price!:number;
     stock!:number;
     status!:string;
     minimumStock!:number;
-    brand!: Brand;
+    compatibleModels!: Model[];
     category!:Category;
     supplier!:Supplier;
     categoryId?: number;
     supplierId?: number;
+    modelIds?: number[];
     brandId?: number;
     
 }

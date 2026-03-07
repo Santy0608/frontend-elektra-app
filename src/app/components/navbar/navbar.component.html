@@ -20,9 +20,19 @@
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="inventarioDropdown">
                         <li><a class="dropdown-item" [routerLink]="['/parts']">Repuestos</a></li>
                         <li><a class="dropdown-item" [routerLink]="['/categories']">Categorías</a></li>
-                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" [routerLink]="['/suppliers']">Proveedores</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="configuracionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-fuel-pump"></i> Configuración
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="configuracionDropdown">
                         <li><a class="dropdown-item" [routerLink]="['/brands']">Marcas</a></li>
+                        <li><a class="dropdown-item" [routerLink]="['/models']">Modelos</a></li>
+                        <li><a class="dropdown-item" [routerLink]="['/engines']">Motores</a></li>
+                        <li><a class="dropdown-item" [routerLink]="['/vehicles']">Vehículos</a></li>
                     </ul>
                 </li>
                 

@@ -49,39 +49,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="brand" class="form-label fw-bold">Marca <span class="text-danger">*</span></label>
-                            <input
-                                placeholder="Ej: Bosch, Continental, OEM"
-                                required
-                                #brand="ngModel"
-                                name="brand"
-                                [(ngModel)]="part.brand"
-                                type="text"
-                                class="form-control"
-                            />
-                            <div *ngIf="brand.invalid && (brand.dirty || brand.touched)" class="text-danger mt-1 small">
-                                La marca del repuesto es obligatorio.
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label for="compatibleModel" class="form-label fw-bold">Modelo Compatible</label>
-                            <input
-                                placeholder="Ej: Toyota Corolla 2018, Genérico"
-                                #compatibleModel="ngModel"
-                                name="compatibleModel"
-                                [(ngModel)]="part.compatibleModel"
-                                type="text"
-                                class="form-control"
-                            />
-                            <div *ngIf="compatibleModel.invalid && (compatibleModel.dirty || compatibleModel.touched)" class="text-danger mt-1 small">
-                                El modelo compatible del repuesto es obligatorio.
-                            </div>
-                        </div>
-                    </div>
 
                     <hr class="my-4">
 
@@ -148,6 +115,55 @@
                     <h5 class="mb-3 text-secondary"><i class="bi bi-funnel-fill me-1"></i> Clasificación</h5>
 
                     <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">
+                                Marca del Vehículo <span class="text-danger">*</span>
+                            </label>
+
+                            <select
+                                [(ngModel)]="part.brandId"
+                                name="brandId"
+                                required
+                                class="form-select"
+                                (change)="loadModelsByBrand()"
+                                #brandId="ngModel"
+                            >
+                                <option [ngValue]="null" disabled>Seleccione una Marca</option>
+
+                                <option *ngFor="let brand of brands" [ngValue]="brand.idBrand">
+                                    {{ brand.name }}
+                                </option>
+                            </select>
+
+                            <div *ngIf="brandId.invalid && (brandId.dirty || brandId.touched)" class="text-danger small mt-1">
+                                Debe seleccionar una marca.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">
+                                Modelos Compatibles <span class="text-danger">*</span>
+                            </label>
+
+                            <select
+                                multiple
+                                [(ngModel)]="part.modelIds"
+                                name="modelIds"
+                                class="form-select"
+                                required
+                                #modelIds="ngModel"
+                            >
+                                <option *ngFor="let model of models" [ngValue]="model.idModel">
+                                    {{ model.name }}
+                                </option>
+                            </select>
+
+                            <div *ngIf="modelIds.invalid && (modelIds.dirty || modelIds.touched)" class="text-danger small mt-1">
+                                Debe seleccionar al menos un modelo compatible.
+                            </div>
+                        </div>
+                        
                         <div class="col-md-6 mb-3">
                             <label for="category" class="form-label fw-bold">Categoría <span class="text-danger">*</span></label>
                             <select

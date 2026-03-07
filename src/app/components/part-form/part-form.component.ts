@@ -10,6 +10,10 @@ import Swal from 'sweetalert2';
 import { Supplier } from '../../models/Supplier';
 import { SupplierService } from '../../services/supplier.service';
 import { CommonModule } from '@angular/common';
+import { Brand } from '../../models/Brand';
+import { BrandService } from '../../services/brand.service';
+import { Model } from '../../models/Model';
+import { ModelService } from '../../services/model.service';
 
 @Component({
   selector: 'app-part-form',
@@ -23,8 +27,10 @@ export class PartFormComponent implements OnInit{
   parts: Part[] = [];
   part: Part;
   suppliers: Supplier[] = [];
+  brands: Brand[] = [];
+  models: Model[] = [];
 
-  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private route: ActivatedRoute, private categoryService: CategoryService, private supplierService: SupplierService){
+  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private route: ActivatedRoute, private categoryService: CategoryService, private supplierService: SupplierService, private brandService: BrandService, private modelService: ModelService){
     this.part = new Part();
   }
 
@@ -39,6 +45,7 @@ export class PartFormComponent implements OnInit{
     })
     this.chargeCategories();
     this.chargeSuppliers();
+    this.chargeBrands();
   }
 
   onSubmit(partForm: NgForm): void{
@@ -51,18 +58,22 @@ export class PartFormComponent implements OnInit{
       Swal.fire("Error", "Debe seleccionar un proveedor", "error");
     }
 
+    if (!this.part.modelIds || this.part.modelIds.length === 0) {
+      Swal.fire("Error", "Debe seleccionar al menos un modelo compatible", "error");
+      return;
+    }
+
     const partToSend = {
       idPart: this.part.idPart,
       name: this.part.name,
       code: this.part.code,
-      brand: this.part.brand, 
-      compatibleModel: this.part.compatibleModel,
       price: this.part.price,
       stock: this.part.stock,
       status: this.part.status,
       minimumStock: this.part.minimumStock,
       category: { idCategory: Number(this.part.categoryId) },
-      supplier: { idSupplier: Number(this.part.supplierId) }
+      supplier: { idSupplier: Number(this.part.supplierId) },
+      compatibleModels: this.part.modelIds?.map(id => ({ idModel: Number(id) }))
     }
 
     if (this.part.idPart > 0){
@@ -112,6 +123,27 @@ export class PartFormComponent implements OnInit{
     })
   }
 
+  chargeBrands(): void {
+    this.brandService.brandList().subscribe(brands => {
+      this.brands = brands;
+      console.log('Brands Charged: ', this.brands);
+    }, error => {
+      console.error('Error while charging brands: ', error);
+    })
+  }
 
+  loadModelsByBrand(): void {
+
+    if (!this.part.brandId) {
+      this.models = [];
+      return;
+    }
+
+    this.modelService.getModelsByBrand(this.part.brandId)
+      .subscribe(data => {
+        this.models = data;
+      });
+
+  }
 
 }
