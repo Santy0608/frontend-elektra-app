@@ -1,6 +1,6 @@
 export class Engine{
 
     idEngine!: number;
-    name!:string;
+    name?:string;
 
 }

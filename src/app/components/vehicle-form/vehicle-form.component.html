@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">
+                    <i class="bi bi-tag-fill me-2"></i> 
+                    {{ vehicle.idVehicle > 0 ? "Actualizar Vehículo" : "Crear Vehículo" }}
+                </h2>
+            </div>
+
+            <form (ngSubmit)="onSubmit(vehicleForm)" #vehicleForm="ngForm">
+                <div class="card-body p-4">
+                    
+                    <input type="hidden" name="idVehicle" [(ngModel)]="vehicle.idVehicle">
+
+                    <div class="mb-3">
+                        <label for="model" class="form-label fw-bold">Modelo <span class="text-danger">*</span></label>
+                            <select
+                                [(ngModel)]="model.modelId"
+                                name="modelId"
+                                required
+                                class="form-select"
+                                #modelId="ngModel"
+                            >
+                                <option [ngValue]="null" disabled>Seleccione un Modelo para el vehículo</option>
+                                <option *ngFor="let model of models" [ngValue]="model.idModel">
+                                    {{ model.name }}
+                                </option>
+                            </select>
+                        <div *ngIf="modelId.invalid && (modelId.dirty || modelId.touched)" class="text-danger mt-1 small">El motor es obligatoria.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="year" class="form-label fw-bold">Año del Vehículo <span class="text-danger">*</span></label>
+                        <input
+                            required
+                            #year="ngModel"
+                            name="year"
+                            [(ngModel)]="vehicle.year"
+                            type="number"
+                            class="form-control"
+                        />
+                        <div *ngIf="year.invalid && (year.dirty || year.touched)" class="text-danger mt-1 small">
+                            El año del vehículo es obligatorio.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="engine" class="form-label fw-bold">Motor <span class="text-danger">*</span></label>
+                            <select
+                                [(ngModel)]="vehicle.engineId"
+                                name="engineId"
+                                required
+                                class="form-select"
+                                #engineId="ngModel"
+                            >
+                                <option [ngValue]="null" disabled>Seleccione un Motor</option>
+                                <option *ngFor="let engine of engines" [ngValue]="engine.idEngine">
+                                    {{ engine.name }}
+                                </option>
+                            </select>
+                        <div *ngIf="engineId.invalid && (engineId.dirty || engineId.touched)" class="text-danger mt-1 small">El motor es obligatoria.</div>
+                    </div>
+                    <div class="d-flex justify-content-end pt-3">
+                        
+                        <a [routerLink]="['/vehicles']" class="btn btn-outline-secondary me-2">
+                            <i class="bi bi-arrow-left"></i> Regresar
+                        </a>
+                        
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary" 
+                            [disabled]="vehicleForm.invalid"
+                        >
+                            <i class="bi bi-save-fill me-1"></i> 
+                            {{ vehicle.idVehicle > 0 ? 'Guardar Cambios' : 'Registrar Vehículo' }} 
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

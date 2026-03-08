@@ -24,6 +24,8 @@ import { ModelComponent } from './components/model/model.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
 import { EngineComponent } from './components/engine/engine.component';
 import { EngineFormComponent } from './components/engine-form/engine-form.component';
+import { VehicleComponent } from './components/vehicle/vehicle.component';
+import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 
 export const routes: Routes = [
 
@@ -59,6 +61,12 @@ export const routes: Routes = [
     { path: 'engines', component: EngineComponent},
     { path: 'engines/create', component: EngineFormComponent},
     { path: 'engines/edit/:idEngine', component: EngineFormComponent},
+
+    //Routes for Vehicles
+
+    {path: 'vehicles', component: VehicleComponent},
+    {path: 'vehicles/create', component: VehicleFormComponent},
+    {path: 'vehicles/edit/:idVehicle', component: VehicleFormComponent},
 
     //Routes for Customers
     { path: 'customers', component: CustomerComponent},
