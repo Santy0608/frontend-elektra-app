@@ -22,6 +22,8 @@ import { BrandComponent } from './components/brand/brand.component';
 import { BrandFormComponent } from './components/brand-form/brand-form.component';
 import { ModelComponent } from './components/model/model.component';
 import { ModelFormComponent } from './components/model-form/model-form.component';
+import { EngineComponent } from './components/engine/engine.component';
+import { EngineFormComponent } from './components/engine-form/engine-form.component';
 
 export const routes: Routes = [
 
@@ -53,6 +55,10 @@ export const routes: Routes = [
     { path: 'models', component: ModelComponent },
     { path: 'models/create', component: ModelFormComponent},
     { path: 'models/edit/:idModel', component: ModelFormComponent},
+
+    { path: 'engines', component: EngineComponent},
+    { path: 'engines/create', component: EngineFormComponent},
+    { path: 'engines/edit/:idEngine', component: EngineFormComponent},
 
     //Routes for Customers
     { path: 'customers', component: CustomerComponent},
