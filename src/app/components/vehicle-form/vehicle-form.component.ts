@@ -6,14 +6,15 @@ import { AuthService } from '../../services/auth.service';
 import { EngineService } from '../../services/engine.service';
 import { VehicleService } from '../../services/vehicle.service';
 import { ModelService } from '../../services/model.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { SharingDataServiceVehicle } from '../../services/sharing-data-vehicle.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-vehicle-form',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink,RouterModule, CommonModule],
   templateUrl: './vehicle-form.component.html',
 })
 export class VehicleFormComponent implements OnInit{
@@ -106,5 +107,7 @@ export class VehicleFormComponent implements OnInit{
       console.log('Error while charging engines:', error);
     })
   }
+
+  
 
 }

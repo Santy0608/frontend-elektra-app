@@ -38,5 +38,6 @@ export class ModelService{
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+    
 
 }

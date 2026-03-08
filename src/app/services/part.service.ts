@@ -50,4 +50,8 @@ export class PartService{
         return this.http.get<Part[]>(`${this.url}/search`, { params: params });
     }
 
+    getPartsByVehicle(vehicleId:number): Observable<Part[]>{
+        return this.http.get<Part[]>(`${this.url}/vehicle/${vehicleId}`);
+    }
+
 }

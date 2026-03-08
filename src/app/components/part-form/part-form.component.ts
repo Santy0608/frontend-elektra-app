@@ -14,6 +14,9 @@ import { Brand } from '../../models/Brand';
 import { BrandService } from '../../services/brand.service';
 import { Model } from '../../models/Model';
 import { ModelService } from '../../services/model.service';
+import { Engine } from '../../models/Engine';
+import { Vehicle } from '../../models/Vehicle';
+import { VehicleService } from '../../services/vehicle.service';
 
 @Component({
   selector: 'app-part-form',
@@ -30,7 +33,18 @@ export class PartFormComponent implements OnInit{
   brands: Brand[] = [];
   models: Model[] = [];
 
-  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private route: ActivatedRoute, private categoryService: CategoryService, private supplierService: SupplierService, private brandService: BrandService, private modelService: ModelService){
+
+  years: number[] = [];
+  engines: Engine[] = [];
+
+  selectedBrandId?: number;
+  selectedModelId?: number;
+  selectedYear?: number;
+  selectedEngineId?: number;
+
+  vehiclesSelected: Vehicle[] = [];
+
+  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private route: ActivatedRoute, private categoryService: CategoryService, private supplierService: SupplierService, private brandService: BrandService, private modelService: ModelService, private vehicleService: VehicleService){
     this.part = new Part();
   }
 
@@ -58,11 +72,6 @@ export class PartFormComponent implements OnInit{
       Swal.fire("Error", "Debe seleccionar un proveedor", "error");
     }
 
-    if (!this.part.modelIds || this.part.modelIds.length === 0) {
-      Swal.fire("Error", "Debe seleccionar al menos un modelo compatible", "error");
-      return;
-    }
-
     const partToSend = {
       idPart: this.part.idPart,
       name: this.part.name,
@@ -71,12 +80,15 @@ export class PartFormComponent implements OnInit{
       stock: this.part.stock,
       status: this.part.status,
       minimumStock: this.part.minimumStock,
+
       category: { idCategory: Number(this.part.categoryId) },
       supplier: { idSupplier: Number(this.part.supplierId) },
-      compatibleModels: this.part.modelIds?.map(id => ({ idModel: Number(id) }))
+
+      vehicleIds: this.vehiclesSelected.map(v => v.idVehicle)
     }
 
     if (this.part.idPart > 0){
+      this.part.vehicleIds = this.vehiclesSelected.map(v => v.idVehicle);
       this.partService.updatePart(partToSend).subscribe(partUpdated => {
         this.parts = this.parts.map(p =>
         p.idPart === partUpdated.idPart ? {...partUpdated } : p
@@ -87,6 +99,7 @@ export class PartFormComponent implements OnInit{
         this.sharingDataService.errorsPartFormEventEmitter.emit(error);
       })    
     } else {
+      this.part.vehicleIds = this.vehiclesSelected.map(v => v.idVehicle);
       this.partService.savePart(partToSend).subscribe(partNew => {
         console.log(partNew);
         this.parts.push(partNew);
@@ -132,18 +145,53 @@ export class PartFormComponent implements OnInit{
     })
   }
 
-  loadModelsByBrand(): void {
-
-    if (!this.part.brandId) {
-      this.models = [];
-      return;
+    loadModels(): void {
+      if (!this.selectedBrandId) {
+        this.models = [];
+        return;
+      }
+      this.modelService.getModelsByBrand(this.selectedBrandId)
+        .subscribe(data => {
+          this.models = data;
+        });
     }
 
-    this.modelService.getModelsByBrand(this.part.brandId)
-      .subscribe(data => {
-        this.models = data;
-      });
+    loadYears() {
+      if (!this.selectedModelId) return;
+      this.vehicleService.getYearsByModel(this.selectedModelId)
+        .subscribe(years => this.years = years);
+    }
 
-  }
+    loadEngines() {
+      if (!this.selectedModelId || !this.selectedYear) return;
+
+      this.vehicleService.getEnginesByModelAndYear(this.selectedModelId, this.selectedYear)
+          .subscribe({
+            next: (engines) => this.engines = engines,
+            error: (err) => console.error('Error al cargar motores', err)
+          });
+    }
+
+    addCompatibility() {
+      if(!this.selectedModelId || !this.selectedYear || !this.selectedEngineId){
+        return;
+      }
+      this.vehicleService
+          .getVehicleByFilters(this.selectedModelId, this.selectedYear, this.selectedEngineId)
+          .subscribe(vehicle => {
+
+            if(vehicle){
+              this.vehiclesSelected.push(vehicle);
+            }
+
+          });
+    }
+
+    removeCompatibility(vehicle: Vehicle){
+
+      this.vehiclesSelected =
+      this.vehiclesSelected.filter(v => v.idVehicle !== vehicle.idVehicle);
+
+    }
 
 }

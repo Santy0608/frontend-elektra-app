@@ -29,7 +29,7 @@
             </thead>
         </table>
         <tbody>
-            @for(engine of engines; track engine.idEngine){
+            @for(engine of engines; track $index){
                 <tr>
                     <td class="text-center">{{ engine.name }}</td>
                     @if (admin){
@@ -56,5 +56,9 @@
                 </tr>
             }
         </tbody>
+    </div>
+} @else {
+    <div class="alert alert-warning text-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> No hay registros de Motores de Vehículos en el sistema.
     </div>
 }

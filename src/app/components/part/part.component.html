@@ -38,6 +38,73 @@
     </div>
 
 
+    <div class="card p-3 mb-4 shadow-sm">
+        <div class="row g-2">
+
+            <!-- Marca -->
+            <div class="col-md-3">
+                <select class="form-select"
+                        [(ngModel)]="selectedBrandId"
+                        (change)="loadModels()">
+                    <option [ngValue]="null">Marca</option>
+                    <option *ngFor="let brand of brands"
+                            [ngValue]="brand.idBrand">
+                            {{ brand.name }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Modelo -->
+            <div class="col-md-3">
+                <select class="form-select"
+                        [(ngModel)]="selectedModelId"
+                        (change)="loadYears()">
+                    <option [ngValue]="null">Modelo</option>
+                    <option *ngFor="let model of models"
+                            [ngValue]="model.idModel">
+                            {{ model.name }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Año -->
+            <div class="col-md-2">
+                <select class="form-select"
+                        [(ngModel)]="selectedYear"
+                        (change)="loadEngines()">
+                    <option [ngValue]="null">Año</option>
+                    <option *ngFor="let year of years"
+                            [ngValue]="year">
+                            {{ year }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Motor -->
+            <div class="col-md-2">
+                <select class="form-select"
+                        [(ngModel)]="selectedEngineId">
+                    <option [ngValue]="null">Motor</option>
+                    <option *ngFor="let engine of engines"
+                            [ngValue]="engine.idEngine">
+                            {{ engine.name }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Buscar -->
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-primary"
+                        (click)="searchPartsByVehicle()">
+                    <i class="bi bi-search"></i>
+                    Buscar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
     @if(parts.length>0){
     <div class="table-responsive">
         <table class="table table-stripped table-hover align-middle border">
@@ -52,6 +119,7 @@
                     <th>Estado</th>
                     <th>Categoría</th>
                     <th>Proveedor</th>
+                    <th>Vehículos Compatibles</th>
                     @if (admin){
                         <th>Actualizar</th>
                         <th>Eliminar</th>
@@ -70,6 +138,9 @@
                         <td class="text-muted">{{ part.status }}</td>
                         <td class="text-muted">{{ part.category?.name }}</td>
                         <td class="text-muted">{{ part.supplier?.name }}</td>
+                        <td class="text-muted">
+                            {{ getVehicleDescription(part.vehicles ?? []) }}
+                        </td>
                         @if (admin){
                             <td>
                                 <button class="btn btn-warning btn-sm"

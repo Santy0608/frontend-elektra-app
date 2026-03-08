@@ -6,10 +6,15 @@ import { SharingDataServicePart } from '../../services/sharing-data-part.service
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { Vehicle } from '../../models/Vehicle';
+import { VehicleService } from '../../services/vehicle.service';
+import { ModelService } from '../../services/model.service';
+import { CommonModule } from '@angular/common';
+import { BrandService } from '../../services/brand.service';
 
 @Component({
   selector: 'app-part',
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './part.component.html',
 })
 export class PartComponent implements OnInit{
@@ -20,7 +25,17 @@ export class PartComponent implements OnInit{
   brandSearch: string = '';
   codeSearch: string = '';
 
-  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private authService: AuthService){
+  brands:any[] = [];
+  models:any[] = [];
+  years:number[] = [];
+  engines:any[] = [];
+
+  selectedBrandId?:number;
+  selectedModelId?:number;
+  selectedYear?:number;
+  selectedEngineId?:number;
+
+  constructor(private partService: PartService, private router: Router, private sharingDataService: SharingDataServicePart, private authService: AuthService, private vehicleService: VehicleService, private modelService: ModelService, private brandService: BrandService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras?.state) {
       this.parts = navigation.extras.state['parts'];
@@ -33,8 +48,32 @@ export class PartComponent implements OnInit{
       this.partService.partsList().subscribe(parts => this.parts = parts);
     }
 
+    this.chargeBrands();
+    this.chargeModels();
     this.loadParts();
+    this.loadModels();
+    this.loadYears();
+    this.loadEngines();
   }
+
+   chargeBrands(): void {
+    this.brandService.brandList().subscribe(brands => {
+      this.brands = brands;
+      console.log('Brands Charged: ', this.brands);
+    }, error => {
+      console.error('Error while charging brands: ', error);
+    })
+  }
+
+  chargeModels(): void{
+    this.modelService.modelList().subscribe(models => {
+      this.models = models;
+    }, error => {
+      console.error('Error while charging models: ', error);
+    })
+  }
+
+  
 
   onRemovePart(id: number): void{
        // Buscar el repuesto dentro del listado
@@ -105,6 +144,45 @@ export class PartComponent implements OnInit{
     })
   }
 
+  searchPartsByFilters(){
+
+  this.vehicleService
+    .getVehicleByFilters(this.selectedModelId!, this.selectedYear!, this.selectedEngineId!)
+    .subscribe(vehicle => {
+
+        this.partService.getPartsByVehicle(vehicle.idVehicle)
+          .subscribe(parts => {
+            this.parts = parts;
+          });
+
+    });
+
+}
+
+    searchPartsByVehicle(){
+
+      if(!this.selectedModelId || !this.selectedYear || !this.selectedEngineId){
+        return;
+      }
+
+      this.vehicleService
+          .getVehicleByFilters(
+              this.selectedModelId,
+              this.selectedYear,
+              this.selectedEngineId
+          )
+          .subscribe(vehicle => {
+
+              this.partService
+                  .getPartsByVehicle(vehicle.idVehicle)
+                  .subscribe(parts => {
+                      this.parts = parts;
+                  });
+
+          });
+
+    }
+
   get admin(){
     return this.authService.isAdmin();
   }
@@ -119,5 +197,39 @@ export class PartComponent implements OnInit{
     })
   }
 
+  getVehicleDescription(vehicles: any[]): string {
+    if (!vehicles) return '';
+    return vehicles
+      .slice(0, 2)
+      .map(v => `${v.model.brand.name} ${v.model.name} ${v.year}`)
+      .join(', ');
+  }
+
+  loadModels(): void {
+      if (!this.selectedBrandId) {
+        this.models = [];
+        return;
+      }
+      this.modelService.getModelsByBrand(this.selectedBrandId)
+        .subscribe(data => {
+          this.models = data;
+        });
+    }
+
+    loadYears() {
+      if (!this.selectedModelId) return;
+      this.vehicleService.getYearsByModel(this.selectedModelId)
+        .subscribe(years => this.years = years);
+    }
+
+    loadEngines() {
+      if (!this.selectedModelId || !this.selectedYear) return;
+
+      this.vehicleService.getEnginesByModelAndYear(this.selectedModelId, this.selectedYear)
+          .subscribe({
+            next: (engines) => this.engines = engines,
+            error: (err) => console.error('Error al cargar motores', err)
+          });
+    }
 
 }

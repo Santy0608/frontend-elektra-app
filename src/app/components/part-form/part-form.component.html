@@ -122,11 +122,11 @@
                             </label>
 
                             <select
-                                [(ngModel)]="part.brandId"
+                                [(ngModel)]="selectedBrandId"
                                 name="brandId"
                                 required
                                 class="form-select"
-                                (change)="loadModelsByBrand()"
+                                (change)="loadModels()"
                                 #brandId="ngModel"
                             >
                                 <option [ngValue]="null" disabled>Seleccione una Marca</option>
@@ -139,31 +139,128 @@
                             <div *ngIf="brandId.invalid && (brandId.dirty || brandId.touched)" class="text-danger small mt-1">
                                 Debe seleccionar una marca.
                             </div>
+                        </div> 
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">
+                                Modelo
+                            </label>
+
+                            <select
+                                [(ngModel)]="selectedModelId"
+                                name="modelId"
+                                class="form-select"
+                                (change)="loadYears()"
+                            >
+
+                                <option [ngValue]="null" disabled>Seleccione un Modelo</option>
+
+                                <option *ngFor="let model of models" [ngValue]="model.idModel">
+                                    {{ model.name }}
+                                </option>
+
+                            </select>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">
-                                Modelos Compatibles <span class="text-danger">*</span>
+                                Año
                             </label>
 
                             <select
-                                multiple
-                                [(ngModel)]="part.modelIds"
-                                name="modelIds"
+                                [(ngModel)]="selectedYear"
+                                name="year"
                                 class="form-select"
-                                required
-                                #modelIds="ngModel"
+                                (change)="loadEngines()"
                             >
-                                <option *ngFor="let model of models" [ngValue]="model.idModel">
-                                    {{ model.name }}
-                                </option>
-                            </select>
 
-                            <div *ngIf="modelIds.invalid && (modelIds.dirty || modelIds.touched)" class="text-danger small mt-1">
-                                Debe seleccionar al menos un modelo compatible.
-                            </div>
+                                <option [ngValue]="null" disabled>Seleccione un Año</option>
+
+                                <option *ngFor="let year of years" [ngValue]="year">
+                                    {{ year }}
+                                </option>
+
+                            </select>
                         </div>
-                        
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">
+                                Motor
+                            </label>
+
+                            <select
+                                [(ngModel)]="selectedEngineId"
+                                name="engine"
+                                class="form-select"
+                            >
+
+                                <option [ngValue]="null" disabled>Seleccione un Motor</option>
+
+                                <option *ngFor="let engine of engines" [ngValue]="engine.idEngine">
+                                    {{ engine.name }}
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3 d-flex align-items-end">
+                            <button
+                                type="button"
+                                class="btn btn-success w-100"
+                                (click)="addCompatibility()"
+                            >
+                                <i class="bi bi-plus-circle"></i>
+                                Agregar Compatibilidad
+                            </button>
+                        </div>
+
+                        <div class="mt-4" *ngIf="vehiclesSelected.length > 0">
+
+                            <h6 class="text-secondary">
+                                Vehículos Compatibles
+                            </h6>
+
+                            <table class="table table-sm table-bordered">
+
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th>Año</th>
+                                        <th>Motor</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr *ngFor="let vehicle of vehiclesSelected">
+
+                                        <td>{{ vehicle.model?.brand?.name }}</td>
+                                        <td>{{ vehicle.model?.name }}</td>
+                                        <td>{{ vehicle.year }}</td>
+                                        <td>{{ vehicle.engine?.name }}</td>
+
+                                        <td class="text-center">
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-danger btn-sm"
+                                                (click)="removeCompatibility(vehicle)"
+                                            >
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                    </div>
+                                            
                         <div class="col-md-6 mb-3">
                             <label for="category" class="form-label fw-bold">Categoría <span class="text-danger">*</span></label>
                             <select

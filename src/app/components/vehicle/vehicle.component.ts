@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Vehicle } from '../../models/Vehicle';
 import { AuthService } from '../../services/auth.service';
 import { VehicleService } from '../../services/vehicle.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-vehicle',
-  imports: [],
+  imports: [RouterLink, CommonModule, RouterModule],
   templateUrl: './vehicle.component.html',
 })
 export class VehicleComponent implements OnInit{
@@ -70,7 +71,7 @@ export class VehicleComponent implements OnInit{
     }
       
 
-  OnSelectedVehicle(vehicle: Vehicle): void {
+  onSelectedVehicle(vehicle: Vehicle): void {
     this.router.navigate(['/vehicles/edit', vehicle.idVehicle]);
   }
 

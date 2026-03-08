@@ -24,8 +24,10 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Marca</th>
-                    <th>Actualizar</th>
-                    <th>Eliminar</th>
+                    @if (admin){
+                        <th>Actualizar</th>
+                        <th>Eliminar</th>
+                    }
                 </tr>
             </thead>
             <tbody>

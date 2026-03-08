@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Engine } from '../../models/Engine';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SharingDataServiceEngine } from '../../services/sharing-data-engine.service';
 import { EngineService } from '../../services/engine.service';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -8,9 +8,8 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-engine-form',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './engine-form.component.html',
-  styleUrl: './engine-form.component.css'
 })
 export class EngineFormComponent implements OnInit{
 
