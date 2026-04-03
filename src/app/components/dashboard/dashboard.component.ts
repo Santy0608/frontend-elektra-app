@@ -8,6 +8,7 @@ import { TopPart } from '../../models/TopPart';
 import { CriticalStock } from '../../models/CriticalStock';
 import { TopCustomer } from '../../models/TopCustomer';
 import { MonthlySale } from '../../models/MonthlySale';
+import { CategoryPart } from '../../models/CategoryPart';
 
 Chart.register(...registerables);
 
@@ -24,6 +25,7 @@ export class DashboardComponent implements AfterViewInit{
   private criticalStockChart: Chart | null = null; 
   private topCustomersChart: Chart | null = null;
   private monthlySalesChart: Chart | null = null;
+  private partsByCategoryChart: Chart | null = null;
 
   currentYear: number = new Date().getFullYear();
 
@@ -39,6 +41,7 @@ export class DashboardComponent implements AfterViewInit{
     this.loadCriticalStock();
     this.loadTopCustomers();
     this.loadSalesByMonth();
+    this.loadPartsByCategory();
   }
 
 
@@ -64,6 +67,12 @@ export class DashboardComponent implements AfterViewInit{
   loadSalesByMonth(): void{
     this.dashboradService.getSalesByMonth().subscribe(data => {
       this.renderMonthlySalesChart(data);
+    })
+  }
+
+  loadPartsByCategory(): void{
+    this.dashboradService.getPartsByCategory().subscribe(data => {
+      this.renderPartsByCategoryChart(data);
     })
   }
 
@@ -314,6 +323,82 @@ export class DashboardComponent implements AfterViewInit{
           }
         }
       }
+    });
+  }
+
+  renderPartsByCategoryChart(data: CategoryPart[]): void {
+    if (this.partsByCategoryChart) {
+      this.partsByCategoryChart.destroy();
+    }
+
+    const total = data.reduce((sum, c) => sum + c.totalParts, 0);
+
+    this.partsByCategoryChart = new Chart('partsByCategoryChart', {
+      type: 'doughnut',
+      data: {
+        labels: data.map(c => c.categoryName),
+        datasets: [{
+          data: data.map(c => c.totalParts),
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 205, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)',
+            'rgba(201, 203, 207, 0.8)'
+          ],
+          borderColor: '#fff',
+          borderWidth: 2,
+          hoverOffset: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        cutout: '65%',          
+        plugins: {
+          legend: {
+            position: 'right',  
+            labels: {
+              padding: 20,
+              usePointStyle: true
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const value = ctx.raw as number;
+                const percentage = ((value / total) * 100).toFixed(1);
+                return ` ${ctx.label}: ${value} repuestos (${percentage}%)`;
+              }
+            }
+          }
+        }
+      },
+      plugins: [{
+        id: 'centerText',
+        afterDraw(chart) {
+          const { ctx, chartArea: { top, bottom, left, right } } = chart;
+          ctx.save();
+          ctx.font = 'bold 28px Arial';
+          ctx.fillStyle = '#333';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(
+            `${total}`,
+            (left + right) / 2,
+            (top + bottom) / 2 - 10
+          );
+          ctx.font = '14px Arial';
+          ctx.fillStyle = '#666';
+          ctx.fillText(
+            'repuestos',
+            (left + right) / 2,
+            (top + bottom) / 2 + 20
+          );
+          ctx.restore();
+        }
+      }]
     });
   }
 

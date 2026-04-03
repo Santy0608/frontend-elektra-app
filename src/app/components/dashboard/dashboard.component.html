@@ -1,31 +1,31 @@
-<div class="chart-container">
-  <h3>Top 5 Repuestos Más Vendidos</h3>
-  <canvas id="topPartsChart"></canvas>
-</div>
+<!-- Fila 1: Top Parts + Critical Stock -->
+<div class="dashboard-grid">
 
-<br/>
-<br/>
-<br/>
+  <div class="chart-card">
+    <h3>🔧 Top 5 Repuestos Más Vendidos</h3>
+    <canvas id="topPartsChart"></canvas>
+  </div>
 
-<div class="chart-container">
-  <h3>⚠️ Repuestos con Stock Crítico</h3>
-  <canvas id="criticalStockChart"></canvas>
-</div>
+  <div class="chart-card">
+    <h3>⚠️ Repuestos con Stock Crítico</h3>
+    <canvas id="criticalStockChart"></canvas>
+  </div>
 
-<br/>
-<br/>
-<br/>
+  <!-- Fila 2: Top Customers + Parts by Category -->
+  <div class="chart-card">
+    <h3>🏆 Top 5 Mejores Clientes</h3>
+    <canvas id="topCustomersChart"></canvas>
+  </div>
 
-<div class="chart-container">
-  <h3>🏆 Top 5 Mejores Clientes</h3>
-  <canvas id="topCustomersChart"></canvas>
-</div>
+  <div class="chart-card">
+    <h3>🗂️ Repuestos por Categoría</h3>
+    <canvas id="partsByCategoryChart"></canvas>
+  </div>
 
-<br/>
-<br/>
-<br/>
+  <!-- Fila 3: Ventas Mensuales (ancho completo) -->
+  <div class="chart-card full-width">
+    <h3>📈 Ventas Mensuales {{ currentYear }}</h3>
+    <canvas id="monthlySalesChart"></canvas>
+  </div>
 
-<div class="chart-container">
-  <h3>📈 Ventas Mensuales {{ currentYear }}</h3>
-  <canvas id="monthlySalesChart"></canvas>
 </div>
