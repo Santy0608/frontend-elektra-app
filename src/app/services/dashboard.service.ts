@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Sale } from "../models/Sale";
+import { TopPart } from "../models/TopPart";
 
 
 @Injectable({
@@ -18,5 +19,11 @@ export class DashboardService{
     getTotalSales(): Observable<Sale[]>{
         return this.http.get<Sale[]>(`${this.url}/sales`);
     }
+
+    getTopParts(): Observable<TopPart[]>{
+        return this.http.get<TopPart[]>(`${this.url}/top-parts`);
+    }
+
+    
 
 }

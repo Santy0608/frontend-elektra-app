@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Sale } from '../../models/Sale';
-import { ChartData, ChartOptions } from 'chart.js';
+import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
+import { TopPart } from '../../models/TopPart';
+
+Chart.register(...registerables);
+
 
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, BaseChartDirective],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements AfterViewInit{
 
   sales: Sale[] = [];
 
@@ -21,97 +25,62 @@ export class DashboardComponent implements OnInit{
 
   }
 
-  public chartData: ChartData<'bar'> = { 
-    labels: [],
-    datasets: [{
-      label: 'Ventas Totales',
-      data: [],
-      backgroundColor: 'rgba(52, 152, 219, 0.8)',
-      borderColor: 'rgba(52, 152, 219, 1)',
-      borderWidth: 1,
-      borderRadius: 4 
-    }]
-  };
+  ngAfterViewInit(): void {
+    this.loadTop5();
+  }
 
-  ngOnInit(): void {    
-    this.dashboradService.getTotalSales().subscribe({ 
-        next: (data) => {
-            console.log("Datos del backend: ", data);
-            
-            const labels = data.map(v => this.dateFormatted(v.date)); 
-            const valores = data.map(v => v.total);
 
-            this.chartData.labels = labels;
-            this.chartData.datasets[0].data = valores;
+  loadTop5(): void{
+    this.dashboradService.getTopParts().subscribe(data =>{
+      this.renderChart(data);
+    })
+  }
 
-            this.chartData = { ...this.chartData }; 
+  renderChart(data: TopPart[]): void {
+    new Chart('topPartsChart', {
+      type: 'bar',
+      data: {
+        labels: data.map(p => `${p.name} (${p.code})`),
+        datasets: [{
+          label: 'Unidades Vendidas',
+          data: data.map(p => p.totalSold),
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(255, 159, 64, 0.7)',
+            'rgba(255, 205, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(54, 162, 235, 0.7)'
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)'
+          ],
+          borderWidth: 2,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        indexAxis: 'y', // barras horizontales
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.raw} unidades vendidas`
+            }
+          }
         },
-        error: (err) => { 
-            console.error('Error al cargar las ventas:', err);
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 }
+          }
         }
+      }
     });
   }
-
-   public chartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Registro de Ventas Diarias',
-        font: { size: 36, weight: 'bold' as const },
-        color: '#34495e'
-      },
-      legend: {
-        display: true,
-        position: 'bottom' as const,
-        labels: { usePointStyle: true }
-      },
-      tooltip: {
-        mode: 'index' as const,
-        intersect: false,
-        backgroundColor: 'rgba(44, 62, 80, 0.9)',
-        callbacks: {
-          label: (context: any) => {
-            let label = context.dataset.label || '';
-            if (label) { label += ': '; }
-            if (context.parsed.y !== null) {
-              label += new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
-            }
-            return label;
-          }
-        }
-      }
-    },
-    scales: {
-      x: {
-        grid: { display: false }, 
-        ticks: { color: '#7f8c8d' }
-      },
-      y: {
-        beginAtZero: true,
-        grid: { color: 'rgba(0, 0, 0, 0.08)' }, 
-        ticks: {
-          color: '#7f8c8d',
-          callback: (value: any) => {
-            if (value >= 1000) { return (value / 1000) + 'K'; }
-            return value;
-          }
-        }
-      }
-    }
-  };
-
-
-  private dateFormatted(dateString: string): string {
-    try {
-      const date = new Date(dateString);
-      return new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short' }).format(date);
-    } catch (e) {
-      return dateString.substring(0, 10);
-    }
-  }
-
-
 
 }
