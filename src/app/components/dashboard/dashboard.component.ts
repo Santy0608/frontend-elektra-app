@@ -7,6 +7,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { TopPart } from '../../models/TopPart';
 import { CriticalStock } from '../../models/CriticalStock';
 import { TopCustomer } from '../../models/TopCustomer';
+import { MonthlySale } from '../../models/MonthlySale';
 
 Chart.register(...registerables);
 
@@ -22,6 +23,10 @@ export class DashboardComponent implements AfterViewInit{
   sales: Sale[] = [];
   private criticalStockChart: Chart | null = null; 
   private topCustomersChart: Chart | null = null;
+  private monthlySalesChart: Chart | null = null;
+
+  currentYear: number = new Date().getFullYear();
+
 
   public chartType: 'bar' = 'bar';
 
@@ -33,6 +38,7 @@ export class DashboardComponent implements AfterViewInit{
     this.loadTop5();
     this.loadCriticalStock();
     this.loadTopCustomers();
+    this.loadSalesByMonth();
   }
 
 
@@ -52,6 +58,12 @@ export class DashboardComponent implements AfterViewInit{
     this.dashboradService.getTopCustomers().subscribe(data => {
       console.log('Top customers:', data);
       this.renderTopCustomersChart(data);
+    })
+  }
+
+  loadSalesByMonth(): void{
+    this.dashboradService.getSalesByMonth().subscribe(data => {
+      this.renderMonthlySalesChart(data);
     })
   }
 
@@ -167,7 +179,7 @@ export class DashboardComponent implements AfterViewInit{
             borderColor: 'rgb(75, 192, 192)',
             borderWidth: 2,
             borderRadius: 6,
-            xAxisID: 'xLeft'  // ✅ cambiado de yAxisID a xAxisID
+            xAxisID: 'xLeft'  
           },
           {
             label: 'Cantidad de Compras',
@@ -176,7 +188,7 @@ export class DashboardComponent implements AfterViewInit{
             borderColor: 'rgb(153, 102, 255)',
             borderWidth: 2,
             borderRadius: 6,
-            xAxisID: 'xRight' // ✅ cambiado de yAxisID a xAxisID
+            xAxisID: 'xRight' 
           }
         ]
       },
@@ -197,24 +209,108 @@ export class DashboardComponent implements AfterViewInit{
           }
         },
         scales: {
-          xLeft: {           // ✅ cambiado de yLeft a xLeft
+          xLeft: {           
             type: 'linear',
-            position: 'bottom',  // ✅ cambiado de left a bottom
+            position: 'bottom',  
             beginAtZero: true,
             title: {
               display: true,
               text: 'Total ($)'
             }
           },
-          xRight: {          // ✅ cambiado de yRight a xRight
+          xRight: {          
             type: 'linear',
-            position: 'top', // ✅ cambiado de right a top
+            position: 'top', 
             beginAtZero: true,
             grid: { drawOnChartArea: false },
             title: {
               display: true,
               text: 'Compras'
             }
+          }
+        }
+      }
+    });
+  }
+
+  renderMonthlySalesChart(data: MonthlySale[]): void {
+    if (this.monthlySalesChart) {
+      this.monthlySalesChart.destroy();
+    }
+
+    this.monthlySalesChart = new Chart('monthlySalesChart', {
+      type: 'line',
+      data: {
+        labels: data.map(s => this.dashboradService.translateMonth(s.month)),
+        datasets: [
+          {
+            label: 'Ingresos ($)',
+            data: data.map(s => s.totalRevenue),
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+            borderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: true,
+            tension: 0.4,       
+            yAxisID: 'yRevenue'
+          },
+          {
+            label: 'Cantidad de Ventas',
+            data: data.map(s => s.totalOrders),
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+            borderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: true,
+            tension: 0.4,
+            yAxisID: 'yOrders'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',        
+          intersect: false
+        },
+        plugins: {
+          legend: { display: true },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                if (ctx.dataset.label === 'Ingresos ($)') {
+                  return ` $${Number(ctx.raw).toLocaleString('es-CL')}`;
+                }
+                return ` ${ctx.raw} ventas`;
+              }
+            }
+          }
+        },
+        scales: {
+          yRevenue: {
+            type: 'linear',
+            position: 'left',
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Ingresos ($)'
+            },
+            ticks: {
+              callback: (value) => `$${Number(value).toLocaleString('es-CL')}`
+            }
+          },
+          yOrders: {
+            type: 'linear',
+            position: 'right',
+            beginAtZero: true,
+            grid: { drawOnChartArea: false },
+            title: {
+              display: true,
+              text: 'Ventas'
+            },
+            ticks: { stepSize: 1 }
           }
         }
       }

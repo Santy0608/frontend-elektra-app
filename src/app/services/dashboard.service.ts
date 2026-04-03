@@ -5,6 +5,8 @@ import { Sale } from "../models/Sale";
 import { TopPart } from "../models/TopPart";
 import { CriticalStock } from "../models/CriticalStock";
 import { TopCustomer } from "../models/TopCustomer";
+import { ObserversModule } from "@angular/cdk/observers";
+import { MonthlySale } from "../models/MonthlySale";
 
 
 @Injectable({
@@ -32,6 +34,21 @@ export class DashboardService{
 
     getTopCustomers(): Observable<TopCustomer[]>{
         return this.http.get<TopCustomer[]>(`${this.url}/top-customers`)
+    }
+
+    getSalesByMonth(): Observable<MonthlySale[]>{
+        return this.http.get<MonthlySale[]>(`${this.url}/sales-by-month`);
+    }
+
+    private monthTranslations: { [key: string]: string } = {
+        'January': 'Enero', 'February': 'Febrero', 'March': 'Marzo',
+        'April': 'Abril', 'May': 'Mayo', 'June': 'Junio',
+        'July': 'Julio', 'August': 'Agosto', 'September': 'Septiembre',
+        'October': 'Octubre', 'November': 'Noviembre', 'December': 'Diciembre'
+    };
+
+    translateMonth(month: string): string {
+        return this.monthTranslations[month] || month;
     }
 
 }
