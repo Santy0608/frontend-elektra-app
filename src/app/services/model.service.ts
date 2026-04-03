@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Model } from "../models/Model";
@@ -38,6 +38,15 @@ export class ModelService{
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+
+    searchModels(name: string): Observable<Model[]>{
+        let params = new HttpParams();
+        if (name){
+            params = params.append('name', name);
+        }
+        return this.http.get<Model[]>(`${this.url}/search`, {params: params});
+    } 
+    
     
 
 }

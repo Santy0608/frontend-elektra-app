@@ -6,10 +6,11 @@ import { AuthService } from '../../services/auth.service';
 import { Brand } from '../../models/Brand';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-brand',
-  imports: [CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, RouterModule, RouterLink, FormsModule],
   templateUrl: './brand.component.html',
   styleUrl: './brand.component.css'
 })
@@ -17,6 +18,7 @@ export class BrandComponent implements OnInit{
 
   errors: any;
   brands: Brand[] = [];
+  nameSearch: string = '';
 
   constructor(private brandService: BrandService, private sharingDataService: SharingDataService, private route: ActivatedRoute, private router: Router, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
@@ -69,6 +71,13 @@ export class BrandComponent implements OnInit{
       }
     });
     }
+
+  searchBrands(): void {
+    this.brandService.searchBrands(this.nameSearch)
+    .subscribe(data => {
+      this.brands = data;
+    })
+  }
     
 
     OnSelectedBrand(brand: Brand): void {

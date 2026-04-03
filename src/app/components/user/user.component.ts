@@ -79,7 +79,7 @@ export class UserComponent implements OnInit{
   }
 
   searchUsers(): void {
-    this.userService.searchUser(this.nameSearch, this.emailSearch, this.usernameSearch)
+    this.userService.searchUser(this.nameSearch)
     .subscribe(data => {
       this.users = data;
     })

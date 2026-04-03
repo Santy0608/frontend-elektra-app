@@ -197,12 +197,11 @@ export class PartComponent implements OnInit{
     })
   }
 
-  getVehicleDescription(vehicles: any[]): string {
-    if (!vehicles) return '';
-    return vehicles
+  getVehicleDescription(vehicleNames: string[]): string {
+    if (!vehicleNames) return '';
+    return vehicleNames
       .slice(0, 2)
-      .map(v => `${v.model.brand.name} ${v.model.name} ${v.year}`)
-      .join(', ');
+      .join(', '); 
   }
 
   loadModels(): void {

@@ -39,71 +39,70 @@
 
 
     <div class="card p-3 mb-4 shadow-sm">
-        <div class="row g-2">
+  <div class="row g-2">
 
-            <!-- Marca -->
-            <div class="col-md-3">
-                <select class="form-select"
-                        [(ngModel)]="selectedBrandId"
-                        (change)="loadModels()">
-                    <option [ngValue]="null">Marca</option>
-                    <option *ngFor="let brand of brands"
-                            [ngValue]="brand.idBrand">
-                            {{ brand.name }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Modelo -->
-            <div class="col-md-3">
-                <select class="form-select"
-                        [(ngModel)]="selectedModelId"
-                        (change)="loadYears()">
-                    <option [ngValue]="null">Modelo</option>
-                    <option *ngFor="let model of models"
-                            [ngValue]="model.idModel">
-                            {{ model.name }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Año -->
-            <div class="col-md-2">
-                <select class="form-select"
-                        [(ngModel)]="selectedYear"
-                        (change)="loadEngines()">
-                    <option [ngValue]="null">Año</option>
-                    <option *ngFor="let year of years"
-                            [ngValue]="year">
-                            {{ year }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Motor -->
-            <div class="col-md-2">
-                <select class="form-select"
-                        [(ngModel)]="selectedEngineId">
-                    <option [ngValue]="null">Motor</option>
-                    <option *ngFor="let engine of engines"
-                            [ngValue]="engine.idEngine">
-                            {{ engine.name }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Buscar -->
-            <div class="col-md-2 d-grid">
-                <button class="btn btn-primary"
-                        (click)="searchPartsByVehicle()">
-                    <i class="bi bi-search"></i>
-                    Buscar
-                </button>
-            </div>
-
-        </div>
+    <!-- Marca -->
+    <div class="col-md-3">
+      <label class="form-label small text-muted fw-semibold mb-1">
+        <i class="bi bi-tag"></i> Marca
+      </label>
+      <select class="form-select" [(ngModel)]="selectedBrandId" (change)="loadModels()">
+        <option [ngValue]="null" disabled>Seleccionar...</option>
+        <option *ngFor="let brand of brands" [ngValue]="brand.idBrand">
+          {{ brand.name }}
+        </option>
+      </select>
     </div>
 
+    <!-- Modelo -->
+    <div class="col-md-3">
+      <label class="form-label small text-muted fw-semibold mb-1">
+        <i class="bi bi-car-front"></i> Modelo
+      </label>
+      <select class="form-select" [(ngModel)]="selectedModelId" (change)="loadYears()">
+        <option [ngValue]="null" disabled>Seleccionar...</option>
+        <option *ngFor="let model of models" [ngValue]="model.idModel">
+          {{ model.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Año -->
+    <div class="col-md-2">
+      <label class="form-label small text-muted fw-semibold mb-1">
+        <i class="bi bi-calendar3"></i> Año
+      </label>
+      <select class="form-select" [(ngModel)]="selectedYear" (change)="loadEngines()">
+        <option [ngValue]="null" disabled>Seleccionar...</option>
+        <option *ngFor="let year of years" [ngValue]="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Motor -->
+    <div class="col-md-2">
+      <label class="form-label small text-muted fw-semibold mb-1">
+        <i class="bi bi-gear"></i> Motor
+      </label>
+      <select class="form-select" [(ngModel)]="selectedEngineId">
+        <option [ngValue]="null" disabled>Seleccionar...</option>
+        <option *ngFor="let engine of engines" [ngValue]="engine.idEngine">
+          {{ engine.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Buscar -->
+    <div class="col-md-2 d-grid">
+      <label class="form-label small text-muted fw-semibold mb-1 invisible">.</label>
+      <button class="btn btn-primary" (click)="searchPartsByVehicle()">
+        <i class="bi bi-search"></i> Buscar
+      </button>
+    </div>
+
+  </div>
+</div>
 
     @if(parts.length>0){
     <div class="table-responsive">
@@ -136,10 +135,10 @@
                         <td class="text-nuted">{{ part.stock }}</td>
                         <td class="text-muted">{{ part.minimumStock }}</td>
                         <td class="text-muted">{{ part.status }}</td>
-                        <td class="text-muted">{{ part.category?.name }}</td>
-                        <td class="text-muted">{{ part.supplier?.name }}</td>
+                        <td class="text-muted">{{ part.nameCategory }}</td>
+                        <td class="text-muted">{{ part.nameSupplier }}</td>
                         <td class="text-muted">
-                            {{ getVehicleDescription(part.vehicles ?? []) }}
+                            {{ getVehicleDescription(part.vehicleNames ?? []) }}
                         </td>
                         @if (admin){
                             <td>

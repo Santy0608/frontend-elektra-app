@@ -54,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for(customer of customers; track customer.idCustomer){
+                @for(customer of customers; track $index){
                     <tr>
                         <td class="text-center">{{ customer.idCustomer }}</td>
                         <td>{{ customer.name }}</td>

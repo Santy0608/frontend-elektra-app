@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Engine } from "../models/Engine";
@@ -37,5 +37,12 @@ export class EngineService{
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+    searchEngines(name: string): Observable<Engine[]>{
+        let params = new HttpParams();
+        if (name){
+            params = params.append('name', name);
+        }
+        return this.http.get<Engine[]>(`${this.url}/search`, {params: params});
+    } 
 
 }

@@ -38,13 +38,13 @@ export class SupplierService{
     searchSuppliers(name: string, email: string, address: string): Observable<Supplier[]>{
         let params = new HttpParams();
         if (name){
-            params = params.append('nombre', name);
+            params = params.append('name', name);
         }
         if (email){
-            params = params.append('correo', email);
+            params = params.append('email', email);
         }
         if (address){
-            params = params.append('direccion', address);
+            params = params.append('address', address);
         }
 
         return this.http.get<Supplier[]>(`${this.url}/search`, { params: params });

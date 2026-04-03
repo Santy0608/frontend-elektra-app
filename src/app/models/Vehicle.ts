@@ -1,13 +1,13 @@
 import { Engine } from "./Engine";
 import { Model } from "./Model";
 
-export class Vehicle{
-
-    idVehicle!: number;
-    model?: Model;
-    engine?: Engine;
-    year?: number;
-    modelId?: number;
-    engineId?: number;
-
+export class Vehicle {
+  idVehicle!: number;
+  modelId?: number;
+  nameModel?: string;
+  brandId?: number;      
+  nameBrand?: string;    
+  engineId?: number;
+  nameEngine?: string;
+  year?: number;
 }

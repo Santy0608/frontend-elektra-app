@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
@@ -36,8 +36,14 @@ export class BrandService{
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+    searchBrands(name: string): Observable<Brand[]>{
+        let params = new HttpParams();
+        if (name){
+            params = params.append('name', name);
+        }
+        return this.http.get<Brand[]>(`${this.url}/search`, {params: params});
+    }
 
-
-
+    
 
 }

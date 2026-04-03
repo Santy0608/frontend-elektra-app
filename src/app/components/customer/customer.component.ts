@@ -36,41 +36,35 @@ export class CustomerComponent implements OnInit{
     }
   }
 
-  onRemoveCustomer(id: number){
-    const customer = this.customers.find(c => c.idCustomer === id);
-      if (!customer) {
-        console.error(`Customer not found by Id: ${id}`);
-        return;
+  onRemoveCustomer(id: number) {
+    if (!id) {
+      Swal.fire("Error", "No se pudo encontrar el ID del cliente", "error");
+      return;
+    }
+
+    Swal.fire({
+      title: "¿Estás Seguro?",
+      text: "Cuidado, este cliente será eliminado del sistema.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.customerService.deleteCustomer(id).subscribe({
+          next: () => {
+            // Filtramos la lista localmente para que desaparezca de la tabla de inmediato
+            this.customers = this.customers.filter(c => c.idCustomer !== id);
+            Swal.fire("¡Eliminado!", "El cliente ha sido eliminado exitosamente", "success");
+          },
+          error: (err) => {
+            console.error("Error al eliminar:", err);
+            Swal.fire("Error", "Hubo un problema al eliminar el cliente", "error");
+          }
+        });
       }
-    
-      Swal.fire({
-        title: "¿Estás Seguro?",
-        text: "Cuidado, este cliente será eliminado del sistema.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí,eliminar"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.customerService.deleteCustomer(id).subscribe({
-            next: () => {
-              this.customers = this.customers.filter(c => c.idCustomer !== id);
-    
-              // Navegación (si es necesaria)
-              this.router.navigate(['/customers/create'], { skipLocationChange: true }).then(() => {
-                this.router.navigate(['/customers'], { state: { customers: this.customers } });
-              });
-    
-              Swal.fire("¡Elimminado!", "El cliente ha sido eliminado exitosamente", "success");
-            },
-            error: (err) => {
-              console.error(err);
-              Swal.fire("Error", "Hubo un problema al eliminar el cliente", "error");
-            }
-          });
-        }
-      });
+    });
   }
 
   OnSelectedCustomer(customer: Customer): void {

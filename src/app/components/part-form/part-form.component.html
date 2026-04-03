@@ -236,10 +236,10 @@
 
                                     <tr *ngFor="let vehicle of vehiclesSelected">
 
-                                        <td>{{ vehicle.model?.brand?.name }}</td>
-                                        <td>{{ vehicle.model?.name }}</td>
+                                        <td>{{ vehicle.nameBrand }}</td>
+                                        <td>{{ vehicle.nameModel }}</td>
                                         <td>{{ vehicle.year }}</td>
-                                        <td>{{ vehicle.engine?.name }}</td>
+                                        <td>{{ vehicle.nameEngine }}</td>
 
                                         <td class="text-center">
 
@@ -269,6 +269,8 @@
                                 required
                                 class="form-select"
                                 #categoryId="ngModel"
+                                [compareWith]="compareIds"
+
                             >
                                 <option [ngValue]="null" disabled>Seleccione una Categoría</option>
                                 <option *ngFor="let category of categories" [ngValue]="category.idCategory">
@@ -286,6 +288,7 @@
                                 required
                                 class="form-select"
                                 #supplierId="ngModel"
+                                [compareWith]="compareIds"
                             >
                                 <option [ngValue]="null" disabled>Seleccione un Proveedor</option>
                                 <option *ngFor="let supplier of suppliers" [ngValue]="supplier.idSupplier">

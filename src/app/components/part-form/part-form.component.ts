@@ -17,6 +17,7 @@ import { ModelService } from '../../services/model.service';
 import { Engine } from '../../models/Engine';
 import { Vehicle } from '../../models/Vehicle';
 import { VehicleService } from '../../services/vehicle.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-part-form',
@@ -48,18 +49,83 @@ export class PartFormComponent implements OnInit{
     this.part = new Part();
   }
 
-  ngOnInit(): void {
+ ngOnInit(): void {
     this.sharingDataService.errorsPartFormEventEmitter.subscribe(errors => this.errors = errors);
     this.sharingDataService.selectPartEventEmitter.subscribe(part => this.part = part);
+
     this.route.paramMap.subscribe(params => {
-      const id:number = +(params.get('idPart') || '0');
-      if (id > 0){
-        this.partService.findPartById(id).subscribe(part => this.part = part);
+      const id: number = +(params.get('idPart') || '0');
+
+      if (id > 0) {
+        forkJoin({
+          categories: this.categoryService.categoryList(),
+          suppliers: this.supplierService.supplierList(),
+          brands: this.brandService.brandList(),
+          part: this.partService.findPartById(id)
+        }).subscribe(({ categories, suppliers, brands, part: partData }) => {
+
+          this.categories = categories;
+          this.suppliers = suppliers;
+          this.brands = brands;
+
+          this.part = partData;
+          this.part.categoryId = Number(partData.categoryId);
+          this.part.supplierId = Number(partData.supplierId);
+          console.log('RAW partData completo:', JSON.stringify(partData));
+          console.log('categoryId raw:', partData.categoryId);
+          console.log('supplierId raw:', partData.supplierId);
+
+          if (partData.vehicles) {
+            this.vehiclesSelected = [...partData.vehicles];
+            console.log('Primer vehículo RAW:', JSON.stringify(partData.vehicles[0]));
+
+          }
+
+          // Cascada para los selects de vehículo
+          if (this.vehiclesSelected.length > 0) {
+            const firstVehicle = this.vehiclesSelected[0];
+            this.selectedBrandId = firstVehicle.brandId;
+
+            if (this.selectedBrandId) {
+              this.modelService.getModelsByBrand(this.selectedBrandId).subscribe(models => {
+                this.models = models;
+                this.selectedModelId = firstVehicle.modelId;
+
+                if (this.selectedModelId) {
+                  this.vehicleService.getYearsByModel(this.selectedModelId).subscribe(years => {
+                    this.years = years;
+                    this.selectedYear = firstVehicle.year;
+
+                    if (this.selectedYear) {
+                      this.vehicleService.getEnginesByModelAndYear(this.selectedModelId!, this.selectedYear)
+                        .subscribe(engines => {
+                          this.engines = engines;
+                          this.selectedEngineId = firstVehicle.engineId;
+                        });
+                    }
+                  });
+                }
+              });
+            }
+          }
+        });
+
+      } else {
+        forkJoin({
+          categories: this.categoryService.categoryList(),
+          suppliers: this.supplierService.supplierList(),
+          brands: this.brandService.brandList()
+        }).subscribe(({ categories, suppliers, brands }) => {
+          this.categories = categories;
+          this.suppliers = suppliers;
+          this.brands = brands;
+        });
       }
-    })
-    this.chargeCategories();
-    this.chargeSuppliers();
-    this.chargeBrands();
+    });
+  }
+
+  compareIds(a: any, b: any): boolean {
+    return Number(a) === Number(b);
   }
 
   onSubmit(partForm: NgForm): void{
@@ -81,9 +147,8 @@ export class PartFormComponent implements OnInit{
       status: this.part.status,
       minimumStock: this.part.minimumStock,
 
-      category: { idCategory: Number(this.part.categoryId) },
-      supplier: { idSupplier: Number(this.part.supplierId) },
-
+      categoryId: Number(this.part.categoryId),
+      supplierId: Number(this.part.supplierId),
       vehicleIds: this.vehiclesSelected.map(v => v.idVehicle)
     }
 

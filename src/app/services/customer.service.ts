@@ -39,13 +39,13 @@ export class CustomerService{
      searchCustomers(name: string, phone: string, email: string): Observable<Customer[]>{
         let params = new HttpParams();
         if (name){
-            params = params.append('nombre', name);
+            params = params.append('name', name);
         }
         if (phone){
-            params = params.append('telefono', phone);
+            params = params.append('phone', phone);
         }
         if (email){
-            params = params.append('correo', email);
+            params = params.append('email', email);
         }
         return this.http.get<Customer[]>(`${this.url}/search`, { params: params });
     }

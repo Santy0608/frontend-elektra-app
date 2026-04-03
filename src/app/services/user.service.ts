@@ -35,17 +35,17 @@ export class UserService{
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
-    searchUser(name: string, email: string, username: string): Observable<User[]>{
+    searchUser(name: string): Observable<User[]>{
         let params = new HttpParams();
         if (name){
-            params = params.append('nombre', name);
+            params = params.append('name', name);
         }
-        if (email){
-            params = params.append('correo', email);
-        }
-        if(username){
-            params = params.append('nombreUsuario', username);
-        }
+       // if (email){
+       //     params = params.append('correo', email);
+       // }
+       // if(username){
+       //     params = params.append('nombreUsuario', username);
+       // }
         return this.http.get<User[]>(`${this.url}/search`, { params: params });
     }
 

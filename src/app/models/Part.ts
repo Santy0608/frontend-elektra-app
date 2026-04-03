@@ -14,13 +14,16 @@ export class Part {
     status!: string;
     minimumStock!: number;
 
-    category!: Category;
-    supplier!: Supplier;
+   // category!: Category;
+   // supplier!: Supplier;
 
     categoryId?: number;
+    nameCategory?: string;
     supplierId?: number;
+    nameSupplier?: string;
 
     vehicles?: Vehicle[];
+    vehicleNames?: string[];
 
     vehicleIds?: number[];
 

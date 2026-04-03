@@ -6,16 +6,18 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-engine',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule,FormsModule],
   templateUrl: './engine.component.html',
 })
 export class EngineComponent implements OnInit{
 
   errors: any;
   engines: Engine[] = [];
+  nameSearch: string = '';
 
   constructor(private engineService:EngineService, private sharingDataService: SharingDataServiceEngine, private authService: AuthService, private router: Router){
      const navigation = this.router.getCurrentNavigation();
@@ -29,6 +31,13 @@ export class EngineComponent implements OnInit{
       console.log("Brand List");
       this.engineService.engineList().subscribe(engines => this.engines = engines);
     }
+  }
+
+  searchEngines(): void {
+    this.engineService.searchEngines(this.nameSearch)
+    .subscribe(data => {
+      this.engines = data;
+    })
   }
 
   onRemoveEngine(id: number){

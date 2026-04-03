@@ -33,9 +33,9 @@
             <tbody>
                 @for (vehicle of vehicles; track $index){
                     <tr>
-                        <td class="text-muted">{{ vehicle.model?.name }}</td>
+                        <td class="text-muted">{{ vehicle.nameModel }}</td>
                         <td class="text-muted">{{ vehicle.year }}</td>
-                        <td class="text-muted">{{ vehicle.engine?.name }}</td>>
+                        <td class="text-muted">{{ vehicle.nameEngine }}</td>
                         @if (admin){
                             <td>
                                 <button class="btn btn-warning btn-sm"

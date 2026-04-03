@@ -49,10 +49,7 @@
                     <th>Teléfono</th>
                     <th>Correo</th>
                     <th>Dirección</th>
-                    <th>Terminos Pago</th>
                     <th>Plazo Entrega</th>
-                    <th>Descuento Acordado</th>
-                    <th>Notas</th>
                     @if (admin){
                         <th>Eliminar</th>
                         <th>Actualizar</th>
@@ -69,10 +66,7 @@
                         <td class="text-muted">{{ supplier.phone }}</td>
                         <td class="text-muted">{{ supplier.email }}</td>
                         <td class="text-muted">{{ supplier.address }}</td>
-                        <td class="text-muted">{{ supplier.paymentTerms }}</td>
                         <td class="text-muted">{{ supplier.averageDeliveryTime }}</td>
-                        <td class="text-muted">{{ supplier.agreedDiscount }}</td>
-                        <td class="text-muted">{{ supplier.notes }}</td>
                         @if (admin){
                             <td  class="text-center">
                                 <button class="btn btn-warning btn-sm"

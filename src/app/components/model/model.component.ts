@@ -4,16 +4,19 @@ import { Router, RouterModule } from '@angular/router';
 import { ModelService } from '../../services/model.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-model',
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './model.component.html',
 })
 export class ModelComponent implements OnInit{
 
   errors: any;
   models: Model[] = [];
+  nameSearch: string = '';
 
   constructor(private router: Router, private modelService: ModelService, private authService: AuthService){
     const navigation = this.router.getCurrentNavigation();
@@ -70,6 +73,13 @@ export class ModelComponent implements OnInit{
   
   onSelectedModel(model: Model): void{
     this.router.navigate(['/models/edit', model.idModel]);
+  }
+
+  searchModels(): void {
+    this.modelService.searchModels(this.nameSearch)
+    .subscribe(data => {
+      this.models = data;
+    })
   }
 
   get admin(){
