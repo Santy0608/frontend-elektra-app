@@ -5,6 +5,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { TopPart } from '../../models/TopPart';
+import { CriticalStock } from '../../models/CriticalStock';
 
 Chart.register(...registerables);
 
@@ -18,6 +19,8 @@ Chart.register(...registerables);
 export class DashboardComponent implements AfterViewInit{
 
   sales: Sale[] = [];
+  private criticalStockChart: Chart | null = null; 
+
 
   public chartType: 'bar' = 'bar';
 
@@ -27,12 +30,19 @@ export class DashboardComponent implements AfterViewInit{
 
   ngAfterViewInit(): void {
     this.loadTop5();
+    this.loadCriticalStock();
   }
 
 
   loadTop5(): void{
     this.dashboradService.getTopParts().subscribe(data =>{
       this.renderChart(data);
+    })
+  }
+
+  loadCriticalStock(): void{
+    this.dashboradService.getCriticalStock().subscribe(data => {
+      this.renderCriticalStockChart(data);
     })
   }
 
@@ -75,6 +85,54 @@ export class DashboardComponent implements AfterViewInit{
         },
         scales: {
           x: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 }
+          }
+        }
+      }
+    });
+  }
+
+   renderCriticalStockChart(data: CriticalStock[]): void {
+    if (this.criticalStockChart) {
+      this.criticalStockChart.destroy();
+    }
+
+    this.criticalStockChart = new Chart('criticalStockChart', {
+      type: 'bar',
+      data: {
+        labels: data.map(p => `${p.name} (${p.code})`),
+        datasets: [
+          {
+            label: 'Stock Actual',
+            data: data.map(p => p.stock),
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 2,
+            borderRadius: 6
+          },
+          {
+            label: 'Stock Mínimo',
+            data: data.map(p => p.minimumStock),
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 2,
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.dataset.label}: ${ctx.raw} unidades`
+            }
+          }
+        },
+        scales: {
+          y: {
             beginAtZero: true,
             ticks: { stepSize: 1 }
           }

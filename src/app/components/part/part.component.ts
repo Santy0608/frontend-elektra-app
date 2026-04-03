@@ -125,14 +125,14 @@ export class PartComponent implements OnInit{
   }
 
   onSelectedPart(part: Part): void{
-    if (part.status === "Vendido"){
-      Swal.fire({
-        title: "Acción no permitida",
-        text: "No se puede actualizar un repuesto vendido",
-        icon: "error"
-      })
-      return;
-    }
+   // if (part.status === "Vendido"){
+   //   Swal.fire({
+   //     title: "Acción no permitida",
+   //     text: "No se puede actualizar un repuesto vendido",
+   //     icon: "error"
+   //   })
+   //   return;
+   // }
 
     this.router.navigate(['/parts/edit', part.idPart]);
   }

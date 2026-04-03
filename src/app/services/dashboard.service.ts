@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Sale } from "../models/Sale";
 import { TopPart } from "../models/TopPart";
+import { CriticalStock } from "../models/CriticalStock";
 
 
 @Injectable({
@@ -24,6 +25,8 @@ export class DashboardService{
         return this.http.get<TopPart[]>(`${this.url}/top-parts`);
     }
 
-    
+    getCriticalStock(): Observable<CriticalStock[]>{
+        return this.http.get<CriticalStock[]>(`${this.url}/critical-stock`);
+    }    
 
 }
