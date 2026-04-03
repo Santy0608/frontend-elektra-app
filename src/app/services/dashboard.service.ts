@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Sale } from "../models/Sale";
 import { TopPart } from "../models/TopPart";
 import { CriticalStock } from "../models/CriticalStock";
+import { TopCustomer } from "../models/TopCustomer";
 
 
 @Injectable({
@@ -28,5 +29,9 @@ export class DashboardService{
     getCriticalStock(): Observable<CriticalStock[]>{
         return this.http.get<CriticalStock[]>(`${this.url}/critical-stock`);
     }    
+
+    getTopCustomers(): Observable<TopCustomer[]>{
+        return this.http.get<TopCustomer[]>(`${this.url}/top-customers`)
+    }
 
 }

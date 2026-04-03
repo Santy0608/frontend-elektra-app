@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { TopPart } from '../../models/TopPart';
 import { CriticalStock } from '../../models/CriticalStock';
+import { TopCustomer } from '../../models/TopCustomer';
 
 Chart.register(...registerables);
 
@@ -20,7 +21,7 @@ export class DashboardComponent implements AfterViewInit{
 
   sales: Sale[] = [];
   private criticalStockChart: Chart | null = null; 
-
+  private topCustomersChart: Chart | null = null;
 
   public chartType: 'bar' = 'bar';
 
@@ -31,6 +32,7 @@ export class DashboardComponent implements AfterViewInit{
   ngAfterViewInit(): void {
     this.loadTop5();
     this.loadCriticalStock();
+    this.loadTopCustomers();
   }
 
 
@@ -43,6 +45,13 @@ export class DashboardComponent implements AfterViewInit{
   loadCriticalStock(): void{
     this.dashboradService.getCriticalStock().subscribe(data => {
       this.renderCriticalStockChart(data);
+    })
+  }
+
+  loadTopCustomers(): void{
+    this.dashboradService.getTopCustomers().subscribe(data => {
+      console.log('Top customers:', data);
+      this.renderTopCustomersChart(data);
     })
   }
 
@@ -135,6 +144,77 @@ export class DashboardComponent implements AfterViewInit{
           y: {
             beginAtZero: true,
             ticks: { stepSize: 1 }
+          }
+        }
+      }
+    });
+  }
+
+  renderTopCustomersChart(data: TopCustomer[]): void {
+    if (this.topCustomersChart) {
+      this.topCustomersChart.destroy();
+    }
+
+    this.topCustomersChart = new Chart('topCustomersChart', {
+      type: 'bar',
+      data: {
+        labels: data.map(c => c.fullName),
+        datasets: [
+          {
+            label: 'Total Gastado ($)',
+            data: data.map(c => c.totalSpent),
+            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            borderRadius: 6,
+            xAxisID: 'xLeft'  // ✅ cambiado de yAxisID a xAxisID
+          },
+          {
+            label: 'Cantidad de Compras',
+            data: data.map(c => c.totalOrders),
+            backgroundColor: 'rgba(153, 102, 255, 0.7)',
+            borderColor: 'rgb(153, 102, 255)',
+            borderWidth: 2,
+            borderRadius: 6,
+            xAxisID: 'xRight' // ✅ cambiado de yAxisID a xAxisID
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                if (ctx.dataset.label === 'Total Gastado ($)') {
+                  return ` $${Number(ctx.raw).toLocaleString('es-CL')}`;
+                }
+                return ` ${ctx.raw} compras`;
+              }
+            }
+          }
+        },
+        scales: {
+          xLeft: {           // ✅ cambiado de yLeft a xLeft
+            type: 'linear',
+            position: 'bottom',  // ✅ cambiado de left a bottom
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Total ($)'
+            }
+          },
+          xRight: {          // ✅ cambiado de yRight a xRight
+            type: 'linear',
+            position: 'top', // ✅ cambiado de right a top
+            beginAtZero: true,
+            grid: { drawOnChartArea: false },
+            title: {
+              display: true,
+              text: 'Compras'
+            }
           }
         }
       }
