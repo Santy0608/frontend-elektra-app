@@ -26,6 +26,7 @@ import { EngineComponent } from './components/engine/engine.component';
 import { EngineFormComponent } from './components/engine-form/engine-form.component';
 import { VehicleComponent } from './components/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { PhoneComponent } from './components/phone/phone.component';
 
 export const routes: Routes = [
 
@@ -94,6 +95,9 @@ export const routes: Routes = [
 
     //Routes for Dashboard
 
-    {path: 'dashboard', component: DashboardComponent}
+    {path: 'dashboard', component: DashboardComponent},
+
+    //Routes for Phones
+    {path: 'phones', component: PhoneComponent}
 
 ];

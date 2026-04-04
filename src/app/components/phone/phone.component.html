@@ -1,0 +1,92 @@
+<div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <h1 class="h3 mb-0 text-primary">
+            <i class="bi bi-tags-fill me-2"></i> Gestión de Números de Teléfonos
+        </h1>
+        <small class="text-muted">Administración y clasificación de teléfonos para el sistema.</small>
+    </div>
+
+    @if (admin){
+        <div class="col-md-6 text-end">
+                <button class="btn btn-success" [routerLink]="['/phones/create']">
+                    <i class="bi bi-plus-circle-fill me-1"></i> Nuevo Número de Teléfono
+                </button>
+        </div>
+    }
+</div>
+
+
+ <div class="card p-3 mb-4 shadow-sm">
+    <div class="row align-items-center">
+        <div class="col-md-10">
+            <div class="input-group">
+                <span class="input-group-text bg-light text-muted"><i class="bi bi-search"></i></span>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Buscar número de teléfono del sistema..." 
+                    [(ngModel)]="phoneSearch"
+                    (keyup.enter)="searchPhones()" />
+            </div>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button class="btn btn-outline-primary" (click)="searchPhones()">
+                Buscar
+            </button>
+        </div>
+    </div>
+ </div>
+
+@if(phones.length > 0){
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle border">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>#ID</th>
+                    <th>Número de Teléfono</th>
+                    @if (admin){
+                        <th>Actualizar</th>
+                        <th>Eliminar</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for(phone of phones; track phone.idPhone){
+                    <tr>
+                        <td class="text-center">{{ phone.idPhone }}</td>
+                        <td>{{ phone.phoneNumber }}</td>
+                        @if (admin){
+                            <td class="text-center">
+                                <button 
+                                    class="btn btn-warning btn-sm"
+                                    (click)="OnSelectedPhone(phone)"
+                                    title="Editar"
+                                >
+                                    <i class="bi bi-pencil-square"></i>  Actualizar
+                                </button>
+                            </td>
+                            <td>
+                                <button 
+                                    class="btn btn-danger btn-sm"
+                                    (click)="onRemovePhone(phone.idPhone)"
+                                    title="Eliminar"
+                                >
+                                    <i class="bi bi-trash-fill"></i>
+                                    Eliminar
+                                    </button>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+} @else if (phones.length === 0 && nameSearch) {
+    <div class="alert alert-info text-center">
+        <i class="bi bi-info-circle-fill me-2"></i> No se encontraron teléfonos con el número **"{{ phoneSearch }}"**.
+    </div>
+} @else {
+    <div class="alert alert-warning text-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> No hay registros de Telefonos en el sistema.
+    </div>
+}
