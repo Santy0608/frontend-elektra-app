@@ -66,7 +66,6 @@ export class PhoneComponent implements OnInit{
           next: () => {
             this.phones = this.phones.filter(p => p.idPhone !== id);
   
-            // Navegación (si es necesaria)
             this.router.navigate(['/phones/create'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/phones'], { state: { categories: this.phones } });
             });

@@ -8,6 +8,7 @@ import { User } from '../../models/User';
 import { AuthService } from '../../services/auth.service';
 import { Brand } from '../../models/Brand';
 import { Phone } from '../../models/Phone';
+import { Email } from '../../models/Email';
 
 @Component({
   selector: 'app-navbar',
@@ -28,6 +29,7 @@ export class NavbarComponent {
   @Input() users: User[] = [];
   @Input() brands: Brand[] = [];
   @Input() phones: Phone[] = [];
+  @Input() emails: Email[] = [];
 
   get login(){
     return this.authService.user;

@@ -27,6 +27,9 @@ import { EngineFormComponent } from './components/engine-form/engine-form.compon
 import { VehicleComponent } from './components/vehicle/vehicle.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { PhoneComponent } from './components/phone/phone.component';
+import { PhoneFormComponent } from './components/phone-form/phone-form.component';
+import { EmailComponent } from './components/email/email.component';
+import { EmailFormComponent } from './components/email-form/email-form.component';
 
 export const routes: Routes = [
 
@@ -98,6 +101,14 @@ export const routes: Routes = [
     {path: 'dashboard', component: DashboardComponent},
 
     //Routes for Phones
-    {path: 'phones', component: PhoneComponent}
+    {path: 'phones', component: PhoneComponent},
+    {path: 'phones/create', component: PhoneFormComponent},
+    {path: 'phones/edit/:idPhone', component: PhoneFormComponent,},
+
+    //Rutas para Correos
+    {path: 'emails', component: EmailComponent},
+    {path: 'emails/create', component: EmailFormComponent},
+    {path: 'emails/edit/:idEmail', component: EmailFormComponent}
+    
 
 ];

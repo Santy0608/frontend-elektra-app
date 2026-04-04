@@ -1,6 +1,6 @@
 export class Phone{
 
-    idPhone?: number;
+    idPhone!: number;
     phoneNumber!: number;
 
 }

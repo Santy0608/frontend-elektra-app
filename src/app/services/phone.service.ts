@@ -38,7 +38,7 @@ export class PhoneService{
     searchPhone(phone: string): Observable<Phone[]>{
         let params = new HttpParams();
         if (phone){
-            params = params.append('phone', phone);
+            params = params.append('phoneNumber', phone);
         }
         return this.http.get<Phone[]>(`${this.url}/search`, { params: params });
     }
